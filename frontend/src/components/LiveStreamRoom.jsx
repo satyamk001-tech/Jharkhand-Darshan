@@ -93,14 +93,11 @@ export default function LiveStreamRoom({ tour, onClose }) {
       {/* LEFT: Video Viewport matching Figma media_1792582051194_d4f1a3c9.png */}
       <div className="flex-1 relative bg-black flex items-center justify-center">
         
-        {/* Stream video */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
+        {/* Stream video / background photo matching Figma media_1792582051194_d4f1a3c9.png */}
+        <img
+          src="/figma_assets/livestream_hundru.png"
+          alt="Hundru Falls Live View"
           className="w-full h-full object-cover"
-          src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
         />
 
         {/* Live indicator top-left */}

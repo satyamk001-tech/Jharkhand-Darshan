@@ -7,7 +7,7 @@ export default function Hero({ onStartExploring, onOpen3D }) {
       <div className="relative max-w-4xl mx-auto">
         
         {/* Exact Figma Heading */}
-        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+        <h1 className="text-3xl sm:text-5xl font-semibold tracking-tight text-white leading-tight">
           Discover the Beauty of Jharkhand
         </h1>
 
@@ -17,20 +17,20 @@ export default function Hero({ onStartExploring, onOpen3D }) {
         </p>
 
         {/* Exact Figma Action Buttons */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <button
             onClick={onStartExploring}
-            className="px-6 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-red-600 font-semibold text-xs sm:text-sm shadow-md transition-all flex items-center gap-2"
+            className="px-6 py-2.5 rounded-full bg-white hover:bg-slate-50 text-[#c2410c] font-semibold text-xs sm:text-sm shadow-md transition-all flex items-center gap-2"
           >
-            <MapPin className="w-4 h-4 text-red-600" />
+            <MapPin className="w-4 h-4 text-[#c2410c]" />
             <span>Start Exploring</span>
           </button>
 
           <button
             onClick={onOpen3D}
-            className="px-6 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white border border-white/50 font-semibold text-xs sm:text-sm backdrop-blur-sm transition-all flex items-center gap-2 shadow-sm"
+            className="px-6 py-2.5 rounded-full bg-white hover:bg-slate-50 text-slate-800 font-semibold text-xs sm:text-sm shadow-md transition-all flex items-center gap-2"
           >
-            <Compass className="w-4 h-4 text-white" />
+            <Compass className="w-4 h-4 text-slate-700" />
             <span>3D Explorer</span>
           </button>
         </div>
@@ -39,4 +39,3 @@ export default function Hero({ onStartExploring, onOpen3D }) {
     </div>
   );
 }
-

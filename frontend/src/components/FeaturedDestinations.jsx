@@ -8,7 +8,7 @@ export default function FeaturedDestinations({ onSelectDestination }) {
       subtitle: '74m high waterfall near Ranchi',
       tag: 'waterfall',
       tagIcon: '≡',
-      image: 'https://images.unsplash.com/photo-1546708973-b339540b5162?auto=format&fit=crop&w=800&q=80'
+      image: '/figma_assets/featured_hundru.png'
     },
     {
       id: 2,
@@ -16,15 +16,15 @@ export default function FeaturedDestinations({ onSelectDestination }) {
       subtitle: 'Experience authentic Santhali culture',
       tag: 'culture',
       tagIcon: '👥',
-      image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80'
+      image: '/figma_assets/featured_tribal.png'
     },
     {
       id: 3,
       name: 'Palamau Tiger Reserve',
       subtitle: 'Wildlife sanctuary and tiger conservation',
       tag: 'wildlife',
-      tagIcon: '▵',
-      image: 'https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=800&q=80'
+      tagIcon: '▲',
+      image: '/figma_assets/featured_palamau.png'
     }
   ];
 
@@ -39,7 +39,7 @@ export default function FeaturedDestinations({ onSelectDestination }) {
           </h2>
         </div>
 
-        {/* 3 Cards Grid */}
+        {/* 3 Cards Grid matching Figma exact layout */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {featured.map((item) => (
             <div
@@ -54,12 +54,6 @@ export default function FeaturedDestinations({ onSelectDestination }) {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   loading="lazy"
                 />
-                
-                {/* Tag matching Figma top-right */}
-                <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded-md bg-white/90 backdrop-blur-xs text-slate-800 text-[11px] font-medium flex items-center gap-1 shadow-2xs">
-                  <span>{item.tagIcon}</span>
-                  <span>{item.tag}</span>
-                </div>
               </div>
 
               <div className="p-6">

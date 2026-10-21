@@ -63,7 +63,7 @@ export const BOOKING_ITEMS = {
       numericPrice: 3500,
       rating: 4.5,
       tag: 'Jharkhand Special',
-      image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80',
+      image: '/figma_assets/hotel_ranchi.png',
       features: ['Free WiFi', 'Swimming Pool', 'Spa']
     },
     {
@@ -75,7 +75,7 @@ export const BOOKING_ITEMS = {
       numericPrice: 2800,
       rating: 4.3,
       tag: 'Jharkhand Special',
-      image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80',
+      image: '/figma_assets/hotel_netarhat.png',
       features: ['Nature Walks', 'Sunrise View', 'Bonfire']
     },
     {
@@ -87,7 +87,7 @@ export const BOOKING_ITEMS = {
       numericPrice: 4200,
       rating: 4.2,
       tag: null,
-      image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80',
+      image: '/figma_assets/hotel_jamshedpur.png',
       features: ['Conference Hall', 'Gym', 'Room Service']
     }
   ],
@@ -140,7 +140,7 @@ export const BOOKING_ITEMS = {
       numericPrice: 750,
       rating: 4.9,
       tag: 'Jharkhand Special',
-      image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80',
+      image: '/figma_assets/pass_sarhul.png',
       features: ['Cultural Performances', 'Traditional Food', 'Crafts Fair']
     },
     {
@@ -153,7 +153,7 @@ export const BOOKING_ITEMS = {
       numericPrice: 500,
       rating: 4.7,
       tag: 'Jharkhand Special',
-      image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80',
+      image: '/figma_assets/featured_tribal.png',
       features: ['Folk Dances', 'Local Music', 'Traditional Games']
     },
     {
@@ -166,7 +166,7 @@ export const BOOKING_ITEMS = {
       numericPrice: 600,
       rating: 4.9,
       tag: null,
-      image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80',
+      image: '/figma_assets/featured_palamau.png',
       features: ['Masked Dance Arena', 'Palace Grounds', 'Meet Master Artisans']
     }
   ],
@@ -240,7 +240,7 @@ export const LIVE_TOURS_DATA = [
     startTime: 'Tomorrow 10:00 AM',
     price: 499,
     status: 'SCHEDULED',
-    image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80'
+    image: '/figma_assets/tour_palamau.png'
   }
 ];
 
