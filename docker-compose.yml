@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: jharkhand_darshan_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: jharkhand_darshan
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d jharkhand_darshan"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - jharkhand_network
+
+  # 2. Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: jharkhand_darshan_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - jharkhand_network
+
+  # 3. Spring Boot Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: jharkhand_darshan_backend
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/jharkhand_darshan
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgrespassword
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+    ports:
+      - "8080:8080"
+    networks:
+      - jharkhand_network
+
+  # 4. React Vite Frontend (Nginx)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: jharkhand_darshan_frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+      - "3000:80"
+    networks:
+      - jharkhand_network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  jharkhand_network:
+    driver: bridge
