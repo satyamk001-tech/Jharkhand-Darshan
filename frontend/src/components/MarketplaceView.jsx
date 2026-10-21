@@ -154,14 +154,15 @@ export default function MarketplaceView({ onBack }) {
 
         {/* TAB 1: CRAFTS & ARTISAN PRODUCTS */}
         {activeTab === 'crafts' && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-in fade-in duration-200">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-in fade-in duration-200 items-stretch">
             {MARKETPLACE_PRODUCTS.map((prod) => (
               <div
                 key={prod.id}
-                className="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between"
+                className="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between h-full"
               >
-                <div>
-                  <div className="relative aspect-square w-full overflow-hidden bg-slate-100">
+                <div className="flex flex-col flex-1">
+                  {/* Photo with Badges - EXACT UNIFORM FIXED HEIGHT */}
+                  <div className="relative h-52 w-full overflow-hidden bg-slate-100 shrink-0">
                     <img
                       src={prod.image}
                       alt={prod.name}
@@ -180,21 +181,23 @@ export default function MarketplaceView({ onBack }) {
                     </div>
                   </div>
 
-                  <div className="p-5">
-                    <div className="text-[11px] font-semibold text-orange-600">
-                      {prod.artisan} • {prod.tribe}
+                  <div className="p-5 flex-1 flex flex-col justify-between">
+                    <div>
+                      <div className="text-[11px] font-semibold text-orange-600 truncate h-5">
+                        {prod.artisan} • {prod.tribe}
+                      </div>
+                      <h3 className="font-bold text-sm text-slate-900 mt-1 line-clamp-1 min-h-[1.25rem]" title={prod.name}>
+                        {prod.name}
+                      </h3>
+                      <p className="mt-1.5 text-xs text-slate-500 line-clamp-2 h-9 overflow-hidden">
+                        {prod.description}
+                      </p>
                     </div>
-                    <h3 className="font-bold text-sm text-slate-900 mt-1 line-clamp-1">
-                      {prod.name}
-                    </h3>
-                    <p className="mt-1.5 text-xs text-slate-500 line-clamp-2">
-                      {prod.description}
-                    </p>
                   </div>
                 </div>
 
-                <div className="p-5 pt-0">
-                  <div className="flex items-center justify-between mb-3 border-t border-slate-100 pt-3">
+                <div className="p-5 pt-3 border-t border-slate-100 mt-auto">
+                  <div className="flex items-center justify-between">
                     <div>
                       <div className="text-base font-extrabold text-slate-900">
                         ₹{prod.price}
@@ -203,7 +206,7 @@ export default function MarketplaceView({ onBack }) {
                     </div>
                     <button
                       onClick={() => addToCart(prod)}
-                      className="px-3.5 py-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-white text-xs font-semibold flex items-center gap-1.5 transition-all"
+                      className="px-3.5 py-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-white text-xs font-semibold flex items-center gap-1.5 transition-all shrink-0"
                     >
                       <Plus className="w-3.5 h-3.5" />
                       <span>Add</span>
@@ -217,14 +220,15 @@ export default function MarketplaceView({ onBack }) {
 
         {/* TAB 2: AUTHENTIC TRIBAL CUISINE */}
         {activeTab === 'cuisine' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-200">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-200 items-stretch">
             {JHARKHAND_CUISINE_DATA.map((dish) => (
               <div
                 key={dish.id}
-                className="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between"
+                className="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between h-full"
               >
-                <div>
-                  <div className="relative aspect-16/10 w-full overflow-hidden bg-slate-100">
+                <div className="flex flex-col flex-1">
+                  {/* Photo with Badges - EXACT UNIFORM FIXED HEIGHT */}
+                  <div className="relative h-52 w-full overflow-hidden bg-slate-100 shrink-0">
                     <img
                       src={dish.image}
                       alt={dish.name}
@@ -243,33 +247,35 @@ export default function MarketplaceView({ onBack }) {
                     </button>
                   </div>
 
-                  <div className="p-5">
-                    <div className="flex items-start justify-between gap-2">
-                      <h4 className="font-semibold text-sm text-slate-900">
-                        {dish.name}
-                      </h4>
-                      <span className="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded shrink-0">
-                        {dish.price}
-                      </span>
+                  <div className="p-5 flex-1 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-start justify-between gap-2">
+                        <h4 className="font-semibold text-sm text-slate-900 line-clamp-1" title={dish.name}>
+                          {dish.name}
+                        </h4>
+                        <span className="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded shrink-0">
+                          {dish.price}
+                        </span>
+                      </div>
+                      
+                      <p className="mt-2 text-xs text-slate-500 leading-relaxed font-normal line-clamp-2 h-9 overflow-hidden">
+                        {dish.description}
+                      </p>
                     </div>
-                    
-                    <p className="mt-2 text-xs text-slate-500 leading-relaxed font-normal">
-                      {dish.description}
-                    </p>
 
-                    <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-                      <span className="flex items-center gap-1 font-medium">
-                        <MapPin className="w-3.5 h-3.5 text-orange-500" />
-                        {dish.region}
+                    <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 h-5">
+                      <span className="flex items-center gap-1 font-medium truncate max-w-[160px]">
+                        <MapPin className="w-3.5 h-3.5 text-orange-500 shrink-0" />
+                        <span className="truncate">{dish.region}</span>
                       </span>
-                      <span className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-medium text-[10px]">
+                      <span className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-medium text-[10px] shrink-0">
                         {dish.badge}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-5 pt-0">
+                <div className="p-5 pt-3 border-t border-slate-100 mt-auto">
                   <button
                     onClick={() => {
                       addToCart({
@@ -282,7 +288,7 @@ export default function MarketplaceView({ onBack }) {
                         rating: 4.8
                       });
                     }}
-                    className="w-full py-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
+                    className="w-full py-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     <span>Order Tasting Box</span>
@@ -295,14 +301,15 @@ export default function MarketplaceView({ onBack }) {
 
         {/* TAB 3: TRIBES, MUSIC & PEOPLE */}
         {activeTab === 'people' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-200">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-200 items-stretch">
             {JHARKHAND_PEOPLE_CULTURE_DATA.map((item) => (
               <div
                 key={item.id}
-                className="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between"
+                className="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between h-full"
               >
-                <div>
-                  <div className="relative aspect-16/10 w-full overflow-hidden bg-slate-100">
+                <div className="flex flex-col flex-1">
+                  {/* Photo with Badges - EXACT UNIFORM FIXED HEIGHT */}
+                  <div className="relative h-52 w-full overflow-hidden bg-slate-100 shrink-0">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -314,33 +321,35 @@ export default function MarketplaceView({ onBack }) {
                     </span>
                   </div>
 
-                  <div className="p-5">
-                    <h4 className="font-bold text-sm text-slate-900">
-                      {item.title}
-                    </h4>
-                    
-                    <p className="mt-2 text-xs text-slate-500 leading-relaxed font-normal">
-                      {item.description}
-                    </p>
+                  <div className="p-5 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h4 className="font-bold text-sm text-slate-900 line-clamp-1" title={item.title}>
+                        {item.title}
+                      </h4>
+                      
+                      <p className="mt-2 text-xs text-slate-500 leading-relaxed font-normal line-clamp-2 h-9 overflow-hidden">
+                        {item.description}
+                      </p>
+                    </div>
 
                     <div className="mt-4 pt-3 border-t border-slate-100 space-y-1.5 text-[11px] text-slate-600">
-                      <div className="flex items-center gap-1.5">
-                        <span className="font-semibold text-slate-900">Main Festivals:</span>
-                        <span>{item.festival}</span>
+                      <div className="flex items-center gap-1.5 truncate">
+                        <span className="font-semibold text-slate-900 shrink-0">Festivals:</span>
+                        <span className="truncate">{item.festival}</span>
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="font-semibold text-slate-900">Dance & Music:</span>
-                        <span>{item.music}</span>
+                      <div className="flex items-center gap-1.5 truncate">
+                        <span className="font-semibold text-slate-900 shrink-0">Dance:</span>
+                        <span className="truncate">{item.music}</span>
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="font-semibold text-slate-900">Language:</span>
-                        <span>{item.language}</span>
+                      <div className="flex items-center gap-1.5 truncate">
+                        <span className="font-semibold text-slate-900 shrink-0">Language:</span>
+                        <span className="truncate">{item.language}</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-5 pt-0">
+                <div className="p-5 pt-3 border-t border-slate-100 mt-auto">
                   <div className="px-3 py-2 rounded-xl bg-orange-50/60 border border-orange-100 text-[11px] text-orange-800 font-medium text-center">
                     Recognized UNESCO Cultural Heritage
                   </div>

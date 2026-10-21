@@ -101,7 +101,7 @@ export const BOOKING_ITEMS = {
       numericPrice: 1200,
       rating: 4.8,
       tag: 'Jharkhand Special',
-      image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=800&q=80',
       features: ['Waterfall Trekking', 'Heritage Circuits', 'Santhali & Hindi']
     },
     {
@@ -113,7 +113,7 @@ export const BOOKING_ITEMS = {
       numericPrice: 1500,
       rating: 4.6,
       tag: 'Jharkhand Special',
-      image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80',
       features: ['Tiger Reserve Safari', 'Bird Watching', 'Photography Guide']
     },
     {
@@ -313,7 +313,7 @@ export const MARKETPLACE_PRODUCTS = [
     stock: 12,
     category: 'art',
     giCertified: true,
-    image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80',
     description: 'Handmade Sohrai painting depicting tribal fauna and flora with natural ochre, white kaolin, and charcoal pigments.'
   },
   {

@@ -23,7 +23,7 @@ export const FIGMA_3D_DESTINATIONS = [
     visitors: '150K/year',
     duration: '4-5 hours',
     transports: ['car', 'bus'],
-    image: 'https://images.unsplash.com/photo-1546708973-b339540b5162?auto=format&fit=crop&w=800&q=80',
+    image: '/figma_assets/featured_hundru.png',
     district: 'Ranchi',
     coordinates: { x: 52, y: 55 } // % on schematic map
   },
@@ -391,18 +391,18 @@ export default function Explore3DPage({ onSelectDestination, onBackToHome }) {
         </div>
       )}
 
-      {/* VIEW MODE 2: FIGMA 3 CARDS PER ROW GRID */}
+      {/* VIEW MODE 2: FIGMA 3 CARDS PER ROW GRID WITH EXACT UNIFORM BOX AND IMAGE SIZE */}
       {viewMode === 'grid' && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 animate-in fade-in duration-200">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
             {filtered.map((item) => (
               <div
                 key={item.id}
-                className="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between"
+                className="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between h-full"
               >
-                <div>
-                  {/* Photo with Star Badge */}
-                  <div className="relative aspect-16/10 w-full overflow-hidden bg-slate-100">
+                <div className="flex flex-col flex-1">
+                  {/* Photo with Star Badge - EXACT UNIFORM FIXED HEIGHT */}
+                  <div className="relative h-52 w-full overflow-hidden bg-slate-100 shrink-0">
                     <img
                       src={item.image}
                       alt={item.name}
@@ -415,17 +415,19 @@ export default function Explore3DPage({ onSelectDestination, onBackToHome }) {
                     </div>
                   </div>
 
-                  {/* Body */}
-                  <div className="p-5">
-                    <h3 className="font-bold text-base text-slate-900">
-                      {item.name}
-                    </h3>
+                  {/* Body with uniform height constraints */}
+                  <div className="p-5 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h3 className="font-bold text-base text-slate-900 line-clamp-1 min-h-[1.5rem]" title={item.name}>
+                        {item.name}
+                      </h3>
 
-                    <p className="mt-1 text-xs text-slate-500 leading-relaxed font-normal">
-                      {item.description}
-                    </p>
+                      <p className="mt-1 text-xs text-slate-500 leading-relaxed font-normal line-clamp-2 h-9 overflow-hidden">
+                        {item.description}
+                      </p>
+                    </div>
 
-                    <div className="mt-4 pt-3 border-t border-slate-100 flex items-center gap-4 text-xs text-slate-600">
+                    <div className="mt-4 pt-3 border-t border-slate-100 flex items-center gap-4 text-xs text-slate-600 h-5">
                       <span className="flex items-center gap-1">
                         <Users className="w-3.5 h-3.5 text-slate-400" />
                         <span>{item.visitors}</span>
@@ -438,8 +440,8 @@ export default function Explore3DPage({ onSelectDestination, onBackToHome }) {
                   </div>
                 </div>
 
-                {/* Bottom Row: Transports & View Details Button */}
-                <div className="p-5 pt-0 flex items-center justify-between border-t border-slate-100 mt-2">
+                {/* Bottom Row: Transports & View Details Button - always pinned */}
+                <div className="p-5 pt-3 flex items-center justify-between border-t border-slate-100 mt-auto">
                   <div className="flex items-center gap-2 text-slate-400">
                     <Car className="w-4 h-4" />
                     <Train className="w-4 h-4" />
@@ -447,7 +449,7 @@ export default function Explore3DPage({ onSelectDestination, onBackToHome }) {
 
                   <button
                     onClick={() => onSelectDestination(item)}
-                    className="px-3.5 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-800 text-xs font-semibold transition-colors"
+                    className="px-3.5 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-800 text-xs font-semibold transition-colors shrink-0"
                   >
                     View Details
                   </button>

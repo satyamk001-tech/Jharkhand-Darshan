@@ -94,16 +94,16 @@ export default function ExperienceBooking({ activeTab = 'hotels', setActiveTab, 
           </div>
         </div>
 
-        {/* 3 Cards per row Grid matching Figma */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        {/* 3 Cards per row Grid matching Figma with exact same box and image size */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
           {filteredItems.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between"
+              className="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between h-full"
             >
-              <div>
-                {/* Photo with Badges */}
-                <div className="relative aspect-16/10 w-full overflow-hidden bg-slate-100">
+              <div className="flex flex-col flex-1">
+                {/* Photo with Badges - EXACT UNIFORM FIXED SIZE */}
+                <div className="relative h-52 w-full overflow-hidden bg-slate-100 shrink-0">
                   <img
                     src={item.image}
                     alt={item.title}
@@ -121,47 +121,51 @@ export default function ExperienceBooking({ activeTab = 'hotels', setActiveTab, 
                   </div>
                 </div>
 
-                {/* Card Body */}
-                <div className="p-5">
-                  <h3 className="font-bold text-sm sm:text-base text-slate-900">
-                    {item.title}
-                  </h3>
+                {/* Card Body with strict uniform typography and heights */}
+                <div className="p-5 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 className="font-bold text-sm sm:text-base text-slate-900 line-clamp-1 min-h-[1.5rem]" title={item.title}>
+                      {item.title}
+                    </h3>
 
-                  <p className="mt-1 text-xs text-slate-500 leading-relaxed font-normal">
-                    {item.subtitle || 'Experience rich hospitality and scenic landscape in Jharkhand.'}
-                  </p>
-
-                  <div className="mt-3 flex items-center gap-3 text-xs">
-                    <span className="flex items-center gap-1 text-slate-600">
-                      <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                      <span>{item.location}</span>
-                    </span>
-                    <span className="flex items-center gap-1 text-emerald-600 font-medium">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                      <span>Available</span>
-                    </span>
+                    <p className="mt-1 text-xs text-slate-500 leading-relaxed font-normal line-clamp-2 h-9 overflow-hidden">
+                      {item.subtitle || 'Experience rich hospitality and scenic landscape in Jharkhand.'}
+                    </p>
                   </div>
 
-                  {/* Feature Tags */}
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {item.features && item.features.slice(0, 3).map((feat, idx) => (
-                      <span key={idx} className="px-2 py-0.5 bg-slate-100 rounded text-[10px] text-slate-600">
-                        {feat}
+                  <div className="mt-3 pt-2">
+                    <div className="flex items-center justify-between text-xs h-5">
+                      <span className="flex items-center gap-1 text-slate-600 truncate max-w-[180px]">
+                        <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                        <span className="truncate">{item.location}</span>
                       </span>
-                    ))}
+                      <span className="flex items-center gap-1 text-emerald-600 font-medium shrink-0">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                        <span>Available</span>
+                      </span>
+                    </div>
+
+                    {/* Feature Tags - uniform height */}
+                    <div className="mt-2.5 flex flex-wrap gap-1.5 h-6 overflow-hidden">
+                      {item.features && item.features.slice(0, 3).map((feat, idx) => (
+                        <span key={idx} className="px-2 py-0.5 bg-slate-100 rounded text-[10px] text-slate-600 truncate max-w-[130px]">
+                          {feat}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Price & Book Now Row */}
-              <div className="p-5 pt-0 border-t border-slate-100 mt-2 flex items-center justify-between">
+              {/* Price & Book Now Row - always pinned to bottom */}
+              <div className="p-5 pt-3 border-t border-slate-100 mt-auto flex items-center justify-between">
                 <div className="text-base font-extrabold text-orange-600">
                   {item.price}
                 </div>
 
                 <button
                   onClick={() => onBookItem(item, activeTab)}
-                  className="px-4 py-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-white text-xs font-semibold flex items-center gap-1.5 transition-all"
+                  className="px-4 py-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-white text-xs font-semibold flex items-center gap-1.5 transition-all shrink-0"
                 >
                   <Ticket className="w-3.5 h-3.5" />
                   <span>Book Now</span>

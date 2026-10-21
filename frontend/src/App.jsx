@@ -22,9 +22,27 @@ import LoginModal from './components/LoginModal';
 import { FIGMA_3D_DESTINATIONS } from './components/Explore3DPage';
 
 export default function App() {
-  // Navigation State: 'home' | '3d-explorer' | 'booking' | 'live-tourism' | 'marketplace'
-  const [currentView, setCurrentView] = useState('home');
-  const [activeBookingTab, setActiveBookingTab] = useState('hotels');
+  // Navigation State from URL search params or default: 'home' | '3d-explorer' | 'booking' | 'live-tourism' | 'marketplace'
+  const getInitialView = () => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const v = params.get('view');
+      if (v) return v;
+    }
+    return 'home';
+  };
+
+  const getInitialTab = () => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const t = params.get('tab');
+      if (t) return t;
+    }
+    return 'hotels';
+  };
+
+  const [currentView, setCurrentView] = useState(getInitialView);
+  const [activeBookingTab, setActiveBookingTab] = useState(getInitialTab);
   
   // Modals Visibility State
   const [isHelpBotOpen, setIsHelpBotOpen] = useState(false);
