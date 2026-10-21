@@ -7,16 +7,32 @@ import {
   Plus, 
   Minus, 
   Trash2, 
-  CheckCircle,
-  Sparkles
+  Sparkles,
+  UtensilsCrossed,
+  Users,
+  MapPin,
+  Heart
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { MARKETPLACE_PRODUCTS } from '../data/mockData';
+import { 
+  MARKETPLACE_PRODUCTS, 
+  JHARKHAND_CUISINE_DATA, 
+  JHARKHAND_PEOPLE_CULTURE_DATA 
+} from '../data/mockData';
 
 export default function MarketplaceView({ onBack }) {
+  const [activeTab, setActiveTab] = useState('crafts'); // 'crafts' | 'cuisine' | 'people'
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isOrderPlaced, setIsOrderPlaced] = useState(false);
+  const [favoriteDishes, setFavoriteDishes] = useState({});
+
+  const toggleFavorite = (id) => {
+    setFavoriteDishes(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
 
   const addToCart = (product) => {
     setCart(prev => {
@@ -56,14 +72,14 @@ export default function MarketplaceView({ onBack }) {
   };
 
   return (
-    <div className="py-10 sm:py-16 bg-slate-50 min-h-screen">
+    <div className="py-8 sm:py-12 bg-slate-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Bar */}
         <div className="flex items-center justify-between mb-8">
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-600 hover:text-orange-600 transition-colors"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Home</span>
@@ -71,7 +87,7 @@ export default function MarketplaceView({ onBack }) {
 
           <button
             onClick={() => setIsCartOpen(true)}
-            className="relative px-5 py-2.5 rounded-2xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs sm:text-sm flex items-center gap-2 shadow-md shadow-orange-500/20"
+            className="relative px-5 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-semibold text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-all"
           >
             <ShoppingBag className="w-4 h-4" />
             <span>Tribal Cart ({cart.reduce((a, b) => a + b.qty, 0)})</span>
@@ -82,133 +98,313 @@ export default function MarketplaceView({ onBack }) {
         </div>
 
         {/* Title */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-xs font-bold mb-3">
+        <div className="text-center max-w-2xl mx-auto mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-xs font-semibold mb-3">
             <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-            <span>Direct Fair-Trade Artisan Marketplace</span>
+            <span>Local Marketplace & Cultural Heritage</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Authentic Tribal Crafts of Jharkhand
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Authentic Tribal Treasures of Jharkhand
           </h2>
           <p className="mt-2 text-xs sm:text-sm text-slate-500">
-            Every purchase supports indigenous Santhal, Oraon, and Malhor artisan families directly with 100% fair trade certification
+            Fair-trade tribal handicrafts, native indigenous cuisines, and celebrated folk cultures.
           </p>
         </div>
 
-        {/* Product Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {MARKETPLACE_PRODUCTS.map((prod) => (
-            <div
-              key={prod.id}
-              className="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-xs hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+        {/* 3 Categories Selector */}
+        <div className="max-w-md mx-auto mb-10">
+          <div className="flex items-center bg-slate-200/70 p-1 rounded-xl">
+            <button
+              onClick={() => setActiveTab('crafts')}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold transition-all ${
+                activeTab === 'crafts'
+                  ? 'bg-white text-slate-900 shadow-2xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
             >
-              <div>
-                <div className="relative aspect-square w-full overflow-hidden bg-slate-100">
-                  <img
-                    src={prod.image}
-                    alt={prod.name}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                  {prod.giCertified && (
-                    <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-emerald-700 text-white text-[10px] font-bold flex items-center gap-1 shadow-sm">
-                      <ShieldCheck className="w-3 h-3" />
-                      GI Tagged
-                    </span>
-                  )}
-                  <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-white/95 text-[10px] font-bold text-slate-800 flex items-center gap-1 shadow-xs">
-                    <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                    <span>{prod.rating}</span>
-                  </div>
-                </div>
+              <ShoppingBag className="w-3.5 h-3.5" />
+              <span>Crafts & Art</span>
+            </button>
 
-                <div className="p-5">
-                  <div className="text-[11px] font-semibold text-orange-600">
-                    {prod.artisan} • {prod.tribe}
-                  </div>
-                  <h3 className="font-bold text-sm sm:text-base text-slate-900 mt-1 line-clamp-2">
-                    {prod.name}
-                  </h3>
-                  <p className="mt-2 text-xs text-slate-500 line-clamp-2">
-                    {prod.description}
-                  </p>
-                </div>
-              </div>
+            <button
+              onClick={() => setActiveTab('cuisine')}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold transition-all ${
+                activeTab === 'cuisine'
+                  ? 'bg-white text-slate-900 shadow-2xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <UtensilsCrossed className="w-3.5 h-3.5" />
+              <span>Tribal Cuisine</span>
+            </button>
 
-              <div className="p-5 pt-0">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <span className="text-lg font-extrabold text-slate-900">₹{prod.price}</span>
-                    <span className="text-xs text-slate-400 line-through ml-2">₹{prod.originalPrice}</span>
-                  </div>
-                  <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
-                    In Stock ({prod.stock})
-                  </span>
-                </div>
-
-                <button
-                  onClick={() => addToCart(prod)}
-                  className="w-full py-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white text-xs sm:text-sm font-bold shadow-md shadow-orange-500/20 transition-all flex items-center justify-center gap-2"
-                >
-                  <ShoppingBag className="w-4 h-4" />
-                  <span>Add to Cart</span>
-                </button>
-              </div>
-
-            </div>
-          ))}
+            <button
+              onClick={() => setActiveTab('people')}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold transition-all ${
+                activeTab === 'people'
+                  ? 'bg-white text-slate-900 shadow-2xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Users className="w-3.5 h-3.5" />
+              <span>Tribes & People</span>
+            </button>
+          </div>
         </div>
+
+        {/* TAB 1: CRAFTS & ARTISAN PRODUCTS */}
+        {activeTab === 'crafts' && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-in fade-in duration-200">
+            {MARKETPLACE_PRODUCTS.map((prod) => (
+              <div
+                key={prod.id}
+                className="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between"
+              >
+                <div>
+                  <div className="relative aspect-square w-full overflow-hidden bg-slate-100">
+                    <img
+                      src={prod.image}
+                      alt={prod.name}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                    {prod.giCertified && (
+                      <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-emerald-700 text-white text-[10px] font-bold flex items-center gap-1 shadow-2xs">
+                        <ShieldCheck className="w-3 h-3" />
+                        GI Tagged
+                      </span>
+                    )}
+                    <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-white/95 text-[10px] font-bold text-slate-800 flex items-center gap-1 shadow-2xs">
+                      <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                      <span>{prod.rating}</span>
+                    </div>
+                  </div>
+
+                  <div className="p-5">
+                    <div className="text-[11px] font-semibold text-orange-600">
+                      {prod.artisan} • {prod.tribe}
+                    </div>
+                    <h3 className="font-bold text-sm text-slate-900 mt-1 line-clamp-1">
+                      {prod.name}
+                    </h3>
+                    <p className="mt-1.5 text-xs text-slate-500 line-clamp-2">
+                      {prod.description}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-5 pt-0">
+                  <div className="flex items-center justify-between mb-3 border-t border-slate-100 pt-3">
+                    <div>
+                      <div className="text-base font-extrabold text-slate-900">
+                        ₹{prod.price}
+                      </div>
+                      <div className="text-[10px] text-emerald-600 font-medium">Free shipping</div>
+                    </div>
+                    <button
+                      onClick={() => addToCart(prod)}
+                      className="px-3.5 py-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-white text-xs font-semibold flex items-center gap-1.5 transition-all"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* TAB 2: AUTHENTIC TRIBAL CUISINE */}
+        {activeTab === 'cuisine' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-200">
+            {JHARKHAND_CUISINE_DATA.map((dish) => (
+              <div
+                key={dish.id}
+                className="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between"
+              >
+                <div>
+                  <div className="relative aspect-16/10 w-full overflow-hidden bg-slate-100">
+                    <img
+                      src={dish.image}
+                      alt={dish.name}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                    <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-slate-950/80 backdrop-blur-md text-white text-[10px] font-semibold">
+                      {dish.tag}
+                    </span>
+
+                    <button
+                      onClick={() => toggleFavorite(dish.id)}
+                      className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-600 hover:text-red-600 transition-colors"
+                    >
+                      <Heart className={`w-3.5 h-3.5 ${favoriteDishes[dish.id] ? 'fill-red-500 text-red-500' : ''}`} />
+                    </button>
+                  </div>
+
+                  <div className="p-5">
+                    <div className="flex items-start justify-between gap-2">
+                      <h4 className="font-semibold text-sm text-slate-900">
+                        {dish.name}
+                      </h4>
+                      <span className="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded shrink-0">
+                        {dish.price}
+                      </span>
+                    </div>
+                    
+                    <p className="mt-2 text-xs text-slate-500 leading-relaxed font-normal">
+                      {dish.description}
+                    </p>
+
+                    <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                      <span className="flex items-center gap-1 font-medium">
+                        <MapPin className="w-3.5 h-3.5 text-orange-500" />
+                        {dish.region}
+                      </span>
+                      <span className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-medium text-[10px]">
+                        {dish.badge}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-5 pt-0">
+                  <button
+                    onClick={() => {
+                      addToCart({
+                        id: `cuisine-${dish.id}`,
+                        name: `${dish.name} (Authentic Plate)`,
+                        price: parseInt(dish.price.replace(/[^\d]/g, '')) || 120,
+                        image: dish.image,
+                        tribe: dish.region,
+                        artisan: 'Local Kitchen',
+                        rating: 4.8
+                      });
+                    }}
+                    className="w-full py-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Order Tasting Box</span>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* TAB 3: TRIBES, MUSIC & PEOPLE */}
+        {activeTab === 'people' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-200">
+            {JHARKHAND_PEOPLE_CULTURE_DATA.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between"
+              >
+                <div>
+                  <div className="relative aspect-16/10 w-full overflow-hidden bg-slate-100">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                    <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-orange-600 text-white text-[10px] font-bold shadow-2xs">
+                      {item.tribe}
+                    </span>
+                  </div>
+
+                  <div className="p-5">
+                    <h4 className="font-bold text-sm text-slate-900">
+                      {item.title}
+                    </h4>
+                    
+                    <p className="mt-2 text-xs text-slate-500 leading-relaxed font-normal">
+                      {item.description}
+                    </p>
+
+                    <div className="mt-4 pt-3 border-t border-slate-100 space-y-1.5 text-[11px] text-slate-600">
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-semibold text-slate-900">Main Festivals:</span>
+                        <span>{item.festival}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-semibold text-slate-900">Dance & Music:</span>
+                        <span>{item.music}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-semibold text-slate-900">Language:</span>
+                        <span>{item.language}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-5 pt-0">
+                  <div className="px-3 py-2 rounded-xl bg-orange-50/60 border border-orange-100 text-[11px] text-orange-800 font-medium text-center">
+                    Recognized UNESCO Cultural Heritage
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
       </div>
 
-      {/* Cart Drawer Modal */}
+      {/* Cart Slide-Over / Modal */}
       {isCartOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex justify-end">
-          <div className="w-full max-w-md bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-200">
-            
-            <div className="p-6 border-b border-slate-100 flex items-center justify-between">
-              <div className="flex items-center gap-2 font-bold text-slate-900">
+          <div className="w-full max-w-md bg-white h-full shadow-2xl flex flex-col p-6 animate-in slide-in-from-right duration-200">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-200">
+              <div className="flex items-center gap-2">
                 <ShoppingBag className="w-5 h-5 text-orange-600" />
-                <span>Your Tribal Cart ({cart.reduce((a, b) => a + b.qty, 0)})</span>
+                <h3 className="font-bold text-base text-slate-900">Your Tribal Cart</h3>
               </div>
               <button
                 onClick={() => setIsCartOpen(false)}
-                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+                className="text-xs text-slate-400 hover:text-slate-800"
               >
-                ✕
+                Close ✕
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+            <div className="flex-1 overflow-y-auto py-4 space-y-4">
               {cart.length === 0 ? (
-                <div className="text-center py-16 text-slate-400">
-                  <ShoppingBag className="w-12 h-12 mx-auto mb-3 opacity-30" />
-                  <p className="text-sm">Your cart is empty.</p>
+                <div className="text-center py-12 text-slate-400 text-xs">
+                  Your cart is empty. Add authentic Jharkhand tribal crafts or delicacies!
                 </div>
               ) : (
                 cart.map((item) => (
-                  <div key={item.id} className="flex gap-4 p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                    <img src={item.image} alt={item.name} className="w-16 h-16 rounded-xl object-cover" />
-                    <div className="flex-1">
-                      <h4 className="text-xs font-bold text-slate-900 line-clamp-1">{item.name}</h4>
-                      <p className="text-[10px] text-slate-500 mt-0.5">{item.tribe}</p>
-                      <div className="text-xs font-extrabold text-orange-600 mt-1">₹{item.price * item.qty}</div>
-                      
-                      <div className="flex items-center gap-3 mt-2">
+                  <div key={item.id} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
+                    <img src={item.image} alt={item.name} className="w-14 h-14 object-cover rounded-lg" />
+                    <div className="flex-1 min-w-0">
+                      <div className="font-bold text-xs text-slate-900 truncate">{item.name}</div>
+                      <div className="text-xs text-orange-600 font-semibold mt-0.5">₹{item.price} each</div>
+                      <div className="flex items-center gap-2 mt-2">
                         <button
                           onClick={() => updateQty(item.id, -1)}
-                          className="w-6 h-6 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-700"
+                          className="w-6 h-6 rounded bg-white border border-slate-200 flex items-center justify-center text-xs text-slate-700"
                         >
                           <Minus className="w-3 h-3" />
                         </button>
-                        <span className="text-xs font-bold">{item.qty}</span>
+                        <span className="text-xs font-bold text-slate-900">{item.qty}</span>
                         <button
                           onClick={() => updateQty(item.id, 1)}
-                          className="w-6 h-6 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-700"
+                          className="w-6 h-6 rounded bg-white border border-slate-200 flex items-center justify-center text-xs text-slate-700"
                         >
                           <Plus className="w-3 h-3" />
                         </button>
                       </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-extrabold text-xs text-slate-900">₹{item.price * item.qty}</div>
+                      <button
+                        onClick={() => updateQty(item.id, -item.qty)}
+                        className="text-red-500 hover:text-red-700 mt-2 inline-block"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
                     </div>
                   </div>
                 ))
@@ -216,32 +412,32 @@ export default function MarketplaceView({ onBack }) {
             </div>
 
             {cart.length > 0 && (
-              <div className="p-6 border-t border-slate-100 bg-slate-50">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs text-slate-500 font-medium">Subtotal</span>
-                  <span className="text-lg font-extrabold text-slate-900">₹{cartTotal}</span>
+              <div className="pt-4 border-t border-slate-200 space-y-3">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-slate-600">Subtotal</span>
+                  <span className="font-extrabold text-slate-900">₹{cartTotal}</span>
+                </div>
+                <div className="flex items-center justify-between text-xs text-emerald-600">
+                  <span>Direct Tribal Benefit</span>
+                  <span>100% Guaranteed</span>
                 </div>
 
-                {isOrderPlaced ? (
-                  <div className="p-4 rounded-2xl bg-emerald-500 text-white text-center text-sm font-bold flex items-center justify-center gap-2">
-                    <CheckCircle className="w-5 h-5" />
-                    <span>Order Placed! Johar!</span>
-                  </div>
-                ) : (
-                  <button
-                    onClick={handleCheckout}
-                    className="w-full py-3.5 rounded-2xl bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-sm shadow-xl shadow-orange-500/25 transition-all"
-                  >
-                    Proceed to Official Checkout (₹{cartTotal})
-                  </button>
-                )}
+                <button
+                  onClick={handleCheckout}
+                  disabled={isOrderPlaced}
+                  className="w-full py-3 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2"
+                >
+                  {isOrderPlaced ? (
+                    <span>🎉 Order Placed Successfully!</span>
+                  ) : (
+                    <span>Proceed to Fair-Trade Checkout (₹{cartTotal})</span>
+                  )}
+                </button>
               </div>
             )}
-
           </div>
         </div>
       )}
-
     </div>
   );
 }
