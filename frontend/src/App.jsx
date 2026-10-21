@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import FeaturedDestinations from './components/FeaturedDestinations';
 import TourismServices from './components/TourismServices';
 import TourismStatistics from './components/TourismStatistics';
 import ExperienceBooking from './components/ExperienceBooking';
@@ -7,6 +9,7 @@ import LiveTourismHub from './components/LiveTourismHub';
 import MarketplaceView from './components/MarketplaceView';
 import Explore3DPage from './components/Explore3DPage';
 import FloatingActions from './components/FloatingActions';
+import Footer from './components/Footer';
 
 // Modals
 import HelpBotModal from './components/HelpBotModal';
@@ -86,7 +89,7 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-800 font-sans antialiased selection:bg-orange-500 selection:text-white">
       
-      {/* Top Navigation Bar matching Figma Screenshot */}
+      {/* 1. Top Navigation Bar matching Figma Screenshot */}
       <Navbar
         activeNav={currentView === '3d-explorer' ? '3d' : currentView === 'home' ? 'home' : ''}
         setActiveNav={(nav) => {
@@ -109,25 +112,47 @@ export default function App() {
         onLogout={() => setUser(null)}
       />
 
-      {/* Main View Content */}
+      {/* Main Dynamic View Content */}
       <main className="flex-1">
         
-        {/* VIEW 1: HOME PAGE (Clean Figma design with Tourism Services & Tourism Statistics) */}
+        {/* VIEW 1: HOME PAGE (Sequential Figma design: Hero -> Featured Destinations -> Tourism Services -> Tourism Statistics) */}
         {currentView === 'home' && (
           <div className="animate-in fade-in duration-150">
-            {/* Tourism Services: The 6 Core Options */}
-            <TourismServices
-              onSelectService={(serviceTab) => handleSelectService(serviceTab)}
-              onOpenMarketplace={() => handleSelectService('market')}
-              onOpenLiveStream={() => handleSelectService('live')}
+            {/* 1. Hero Section matching Figma media_1792581964300_dab2f44f.png */}
+            <Hero
+              onStartExploring={() => {
+                const el = document.getElementById('services-section');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              onOpen3D={() => {
+                setCurrentView('3d-explorer');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
             />
 
-            {/* Tourism Statistics */}
+            {/* 2. Featured Destinations matching Figma media_1792581964310_b4280969.png */}
+            <FeaturedDestinations
+              onSelectDestination={(dest) => {
+                const found = FIGMA_3D_DESTINATIONS.find(d => d.name === dest.name);
+                handleOpen3DView(found || FIGMA_3D_DESTINATIONS[0]);
+              }}
+            />
+
+            {/* 3. Tourism Services matching Figma media_1792581964363_34582567.png */}
+            <div id="services-section">
+              <TourismServices
+                onSelectService={(serviceTab) => handleSelectService(serviceTab)}
+                onOpenMarketplace={() => handleSelectService('market')}
+                onOpenLiveStream={() => handleSelectService('live')}
+              />
+            </div>
+
+            {/* 4. Tourism Statistics matching Figma media_1792582024687_2674ec66.png */}
             <TourismStatistics />
           </div>
         )}
 
-        {/* VIEW 2: 3D EXPLORER PAGE (Matching Figma Screenshots 3, 4, 5) */}
+        {/* VIEW 2: 3D EXPLORER PAGE (Matching Figma media_1792583542880_71e5858d.png) */}
         {currentView === '3d-explorer' && (
           <div className="animate-in fade-in duration-150">
             <Explore3DPage
@@ -140,7 +165,7 @@ export default function App() {
           </div>
         )}
 
-        {/* VIEW 3: BOOKING EXPERIENCE (Hotels, Guides, Passes, Transport) */}
+        {/* VIEW 3: BOOKING EXPERIENCE (Matching Figma media_1792581964326_fc75f990.png) */}
         {currentView === 'booking' && (
           <div className="animate-in fade-in duration-150">
             <ExperienceBooking
@@ -155,7 +180,7 @@ export default function App() {
           </div>
         )}
 
-        {/* VIEW 4: LIVE TOURISM HUB (Ravi Kumar, Sunita Devi & Scheduled Tours) */}
+        {/* VIEW 4: LIVE TOURISM HUB (Matching Figma media_1792582024713_71048886.png) */}
         {currentView === 'live-tourism' && (
           <div className="animate-in fade-in duration-150">
             <LiveTourismHub
@@ -168,7 +193,7 @@ export default function App() {
           </div>
         )}
 
-        {/* VIEW 5: LOCAL MARKETPLACE (Tribal Crafts & GI Artifacts) */}
+        {/* VIEW 5: LOCAL MARKETPLACE (Tribal Crafts & Fair-Trade GI Products) */}
         {currentView === 'marketplace' && (
           <div className="animate-in fade-in duration-150">
             <MarketplaceView
@@ -181,6 +206,12 @@ export default function App() {
         )}
 
       </main>
+
+      {/* Official Government Footer */}
+      <Footer onOpen3D={() => {
+        setCurrentView('3d-explorer');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }} />
 
       {/* Floating Action Dock matching Figma bottom right */}
       <FloatingActions
@@ -222,7 +253,7 @@ export default function App() {
         />
       )}
 
-      {/* MODAL 5: Interactive Live Stream Room (matching media_1792582051194_d4f1a3c9.png) */}
+      {/* MODAL 5: Interactive Live Stream Room (Matching Figma media_1792582051194_d4f1a3c9.png) */}
       {activeLiveTour && (
         <LiveStreamRoom
           tour={activeLiveTour}
@@ -230,7 +261,7 @@ export default function App() {
         />
       )}
 
-      {/* MODAL 6: Role Based Login Dialog */}
+      {/* MODAL 6: Role Based Login Dialog (Matching Figma media_1792583542897_c6c8ddcc.png) */}
       {isLoginOpen && (
         <LoginModal
           initialRole={loginRole}
