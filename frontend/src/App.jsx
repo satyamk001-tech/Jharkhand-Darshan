@@ -18,6 +18,7 @@ import ThreeDExplorerModal from './components/ThreeDExplorerModal';
 import BookingModal from './components/BookingModal';
 import LiveStreamRoom from './components/LiveStreamRoom';
 import LoginModal from './components/LoginModal';
+import RoleDashboardModal from './components/RoleDashboardModal';
 
 import { FIGMA_3D_DESTINATIONS } from './components/Explore3DPage';
 
@@ -51,6 +52,7 @@ export default function App() {
   const [selectedThreeDSpot, setSelectedThreeDSpot] = useState(FIGMA_3D_DESTINATIONS[0]);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [loginRole, setLoginRole] = useState('tourist');
+  const [isRoleDashboardOpen, setIsRoleDashboardOpen] = useState(false);
 
   // Active Live Tour Room state
   const [activeLiveTour, setActiveLiveTour] = useState(null);
@@ -127,7 +129,11 @@ export default function App() {
         }}
         onOpenLogin={(role) => handleOpenLoginPage(role)}
         user={user}
-        onLogout={() => setUser(null)}
+        onOpenDashboard={() => setIsRoleDashboardOpen(true)}
+        onLogout={() => {
+          setUser(null);
+          setIsRoleDashboardOpen(false);
+        }}
       />
 
       {/* Main Dynamic View Content */}
@@ -284,7 +290,22 @@ export default function App() {
         <LoginModal
           initialRole={loginRole}
           onClose={() => setIsLoginOpen(false)}
-          onLoginSuccess={(loggedUser) => setUser(loggedUser)}
+          onLoginSuccess={(loggedUser) => {
+            setUser(loggedUser);
+            setIsRoleDashboardOpen(true);
+          }}
+        />
+      )}
+
+      {/* MODAL 7: Role Based User Dashboard */}
+      {isRoleDashboardOpen && user && (
+        <RoleDashboardModal
+          user={user}
+          onClose={() => setIsRoleDashboardOpen(false)}
+          onLogout={() => {
+            setUser(null);
+            setIsRoleDashboardOpen(false);
+          }}
         />
       )}
 

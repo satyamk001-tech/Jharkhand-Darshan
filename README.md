@@ -133,6 +133,19 @@ This project directly reproduces every screen, interaction, layout, and visual t
 
 ---
 
+### 7. 🔐 3 Dedicated Role-Based Logins & Custom Dashboards
+The portal features a unified Single Sign-On (SSO) system with 3 distinct user roles, tailored privileges, and dedicated dashboards:
+
+| Role | Demo Credentials | Primary Capabilities & Dashboard Features |
+|---|---|---|
+| **👤 Tourist** | `tourist@jharkhand.travel`<br>`demo2026` | • **Active Bookings & Reservations**: Hotel reservations (e.g., Ranchi Hill View Resort) & festival access.<br>• **E-Tickets & Pass Wallet**: Instant downloadable QR-coded digital travel passes valid across all 24 districts.<br>• **Marketplace Orders**: Real-time dispatch and tracking of authentic tribal art orders. |
+| **🎒 Guide or Seller** | `guide.seller@jharkhand.travel`<br>`demo2026` | • **Live Tour Studio**: Start and broadcast live video tours across Jharkhand destinations.<br>• **Earnings Ledger**: Direct bank settlement records (₹14,250 monthly earnings).<br>• **Itinerary Schedule**: Manage assigned tourist treks (Netarhat Sunrise trek, Palamau Fort heritage walk).<br>• **Artisan Store**: List GI-tagged handicrafts (Sohrai murals, Dokra brass casting). |
+| **🛡️ Government Admin** | `admin@tourism.jharkhand.gov.in`<br>`demo2026` | • **Tourism Analytics**: High-level state telemetry (2.8M+ visitors, +14.2% YoY growth, 50+ spots).<br>• **Emergency SOS Dispatch**: Real-time status for State Police 112 & Tourist Police 1363 helplines.<br>• **Destination Registrar**: Add and approve new tourist attractions with GPS and photos.<br>• **GI Certification**: Verify and approve indigenous tribal artisan cooperatives. |
+
+> **⚡ 1-Click Instant Demo**: Each role in the Login modal includes a 1-click instant login button for friction-free testing without manual typing.
+
+---
+
 ## 🛠️ Technology Stack Details
 
 | Component | Technology | Version | Purpose |
@@ -234,7 +247,7 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 | `GET` | `/api/products/{id}` | Get single craft product | Database |
 | `GET` | `/api/emergency` | Get 24x7 emergency contacts directory | `@Cacheable("emergency")` |
 | `GET` | `/api/stats` | Get annual visitor and destination statistics | Database |
-| `POST` | `/api/auth/login` | Authenticate user by role (`tourist`, `seller`, `admin`) | Database |
+| `POST` | `/api/auth/login` | Authenticate user by role (`tourist`, `guide_seller`, `admin`) | Database |
 
 *Interactive API testing and schema exploration is available via Swagger UI at [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html).*
 

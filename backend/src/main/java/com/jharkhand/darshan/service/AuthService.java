@@ -22,19 +22,25 @@ public class AuthService {
         String email = (req.getEmail() != null && !req.getEmail().trim().isEmpty())
                 ? req.getEmail()
                 : "user@jharkhand.gov.in";
-        String role = (req.getRole() != null) ? req.getRole().toUpperCase() : "TOURIST";
+        String rawRole = (req.getRole() != null) ? req.getRole().toUpperCase() : "TOURIST";
+        String normalizedRole = "TOURIST";
+        if (rawRole.contains("GUIDE") || rawRole.contains("SELLER")) {
+            normalizedRole = "GUIDE_SELLER";
+        } else if (rawRole.contains("ADMIN")) {
+            normalizedRole = "ADMIN";
+        }
 
         Optional<User> existing = userRepository.findByEmail(email);
         User user;
         if (existing.isPresent()) {
             user = existing.get();
         } else {
-            String defaultName = switch (role) {
-                case "LOCAL_SELLER", "SELLER" -> "Tribal Artisan Cooperative";
-                case "GOVT_ADMIN", "ADMIN" -> "Tourism Officer";
-                default -> "Satyam Kumar";
+            String defaultName = switch (normalizedRole) {
+                case "GUIDE_SELLER" -> "Ravi Kumar (Guide & Seller)";
+                case "ADMIN" -> "Rajesh Murmu (Govt Admin)";
+                default -> "Satyam Kumar (Tourist)";
             };
-            user = new User(email, defaultName, role, "+91 98765 43210", "Ranchi");
+            user = new User(email, defaultName, normalizedRole, "+91 98765 43210", "Ranchi");
             user = userRepository.save(user);
         }
 

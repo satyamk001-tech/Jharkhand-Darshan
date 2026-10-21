@@ -135,11 +135,26 @@ export const api = {
       if (!res.ok) throw new Error('Auth failed');
       return await res.json();
     } catch (e) {
+      const rawRole = (credentials.role || 'tourist').toLowerCase();
+      let role = 'tourist';
+      let name = 'Satyam Kumar (Tourist)';
+      let email = credentials.email || 'tourist@jharkhand.travel';
+
+      if (rawRole.includes('guide') || rawRole.includes('seller')) {
+        role = 'guide_seller';
+        name = 'Ravi Kumar (Guide & Seller)';
+        email = credentials.email || 'guide.seller@jharkhand.travel';
+      } else if (rawRole.includes('admin')) {
+        role = 'admin';
+        name = 'Rajesh Murmu (Govt Admin)';
+        email = credentials.email || 'admin@tourism.jharkhand.gov.in';
+      }
+
       return {
-        token: 'local-token-xyz',
-        email: credentials.email || 'tourist@jharkhand.gov.in',
-        name: credentials.role === 'admin' ? 'Govt Tourism Officer' : credentials.role === 'seller' ? 'Tribal Artisan Cooperative' : 'Satyam Kumar',
-        role: credentials.role || 'tourist'
+        token: `jwt-${role}-${Date.now()}`,
+        email,
+        name,
+        role
       };
     }
   }

@@ -17,7 +17,8 @@ public class DataInitializer {
             LiveTourRepository liveTourRepository,
             ProductRepository productRepository,
             EmergencyContactRepository emergencyContactRepository,
-            TourismServiceRepository tourismServiceRepository) {
+            TourismServiceRepository tourismServiceRepository,
+            UserRepository userRepository) {
         
         return args -> {
             // Seed Tourism Services
@@ -249,6 +250,14 @@ public class DataInitializer {
                     new EmergencyContact("State Medical Ambulance Service", "108", "24/7 Toll-Free", "National Health Mission Jharkhand", "ambulance"),
                     new EmergencyContact("Women Safety & Crisis Helpline", "1091", "24/7 Toll-Free", "Jharkhand CID Women Protection Wing", "women_helpline"),
                     new EmergencyContact("Forest & Wildlife Rescue Wing", "1800-345-6548", "24/7 Toll-Free", "Jharkhand Forest & Environment Dept", "disaster")
+                ));
+            }
+            // Seed 3 Dedicated Role Users (Tourist, Guide/Seller, Govt Admin)
+            if (userRepository.count() == 0) {
+                userRepository.saveAll(List.of(
+                    new User("tourist@jharkhand.travel", "Satyam Kumar (Tourist)", "TOURIST", "+91 98765 43210", "Ranchi"),
+                    new User("guide.seller@jharkhand.travel", "Ravi Kumar (Guide & Seller)", "GUIDE_SELLER", "+91 98111 22334", "Latehar"),
+                    new User("admin@tourism.jharkhand.gov.in", "Rajesh Murmu (Govt Admin)", "ADMIN", "+91 98000 11223", "Ranchi Secretariat")
                 ));
             }
         };
