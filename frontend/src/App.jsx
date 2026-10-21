@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
 import TourismServices from './components/TourismServices';
 import TourismStatistics from './components/TourismStatistics';
 import ExperienceBooking from './components/ExperienceBooking';
@@ -8,7 +7,6 @@ import LiveTourismHub from './components/LiveTourismHub';
 import MarketplaceView from './components/MarketplaceView';
 import Explore3DPage from './components/Explore3DPage';
 import FloatingActions from './components/FloatingActions';
-import Footer from './components/Footer';
 
 // Modals
 import HelpBotModal from './components/HelpBotModal';
@@ -18,10 +16,10 @@ import BookingModal from './components/BookingModal';
 import LiveStreamRoom from './components/LiveStreamRoom';
 import LoginModal from './components/LoginModal';
 
-import { EXPLORE_3D_DESTINATIONS } from './data/mockData';
+import { FIGMA_3D_DESTINATIONS } from './components/Explore3DPage';
 
 export default function App() {
-  // Navigation / View State: 'home' | '3d-explorer' | 'booking' | 'live-tourism' | 'marketplace'
+  // Navigation State: 'home' | '3d-explorer' | 'booking' | 'live-tourism' | 'marketplace'
   const [currentView, setCurrentView] = useState('home');
   const [activeBookingTab, setActiveBookingTab] = useState('hotels');
   
@@ -29,7 +27,7 @@ export default function App() {
   const [isHelpBotOpen, setIsHelpBotOpen] = useState(false);
   const [isEmergencyOpen, setIsEmergencyOpen] = useState(false);
   const [isThreeDModalOpen, setIsThreeDModalOpen] = useState(false);
-  const [selectedThreeDSpot, setSelectedThreeDSpot] = useState(EXPLORE_3D_DESTINATIONS[0]);
+  const [selectedThreeDSpot, setSelectedThreeDSpot] = useState(FIGMA_3D_DESTINATIONS[0]);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [loginRole, setLoginRole] = useState('tourist');
 
@@ -88,7 +86,7 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-800 font-sans antialiased selection:bg-orange-500 selection:text-white">
       
-      {/* Top Navigation Bar with Dynamic Active Pill State */}
+      {/* Top Navigation Bar matching Figma Screenshot */}
       <Navbar
         activeNav={currentView === '3d-explorer' ? '3d' : currentView === 'home' ? 'home' : ''}
         setActiveNav={(nav) => {
@@ -111,41 +109,27 @@ export default function App() {
         onLogout={() => setUser(null)}
       />
 
-      {/* Main Dynamic View Content */}
+      {/* Main View Content */}
       <main className="flex-1">
         
-        {/* VIEW 1: HOME PAGE (Tourism Services, Living Heritage Toggle, & Tourism Statistics) */}
+        {/* VIEW 1: HOME PAGE (Clean Figma design with Tourism Services & Tourism Statistics) */}
         {currentView === 'home' && (
-          <div className="animate-in fade-in duration-200">
-            {/* Hero Banner */}
-            <Hero
-              onStartExploring={() => {
-                const el = document.getElementById('services-section');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-              onOpen3D={() => {
-                setCurrentView('3d-explorer');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-            />
-
+          <div className="animate-in fade-in duration-150">
             {/* Tourism Services: The 6 Core Options */}
-            <div id="services-section">
-              <TourismServices
-                onSelectService={(serviceTab) => handleSelectService(serviceTab)}
-                onOpenMarketplace={() => handleSelectService('market')}
-                onOpenLiveStream={() => handleSelectService('live')}
-              />
-            </div>
+            <TourismServices
+              onSelectService={(serviceTab) => handleSelectService(serviceTab)}
+              onOpenMarketplace={() => handleSelectService('market')}
+              onOpenLiveStream={() => handleSelectService('live')}
+            />
 
             {/* Tourism Statistics */}
             <TourismStatistics />
           </div>
         )}
 
-        {/* VIEW 2: 3D EXPLORER PAGE (Interactive Map, 7 Categories, 12 Destinations) */}
+        {/* VIEW 2: 3D EXPLORER PAGE (Matching Figma Screenshots 3, 4, 5) */}
         {currentView === '3d-explorer' && (
-          <div className="animate-in fade-in duration-200">
+          <div className="animate-in fade-in duration-150">
             <Explore3DPage
               onSelectDestination={(dest) => handleOpen3DView(dest)}
               onBackToHome={() => {
@@ -158,7 +142,7 @@ export default function App() {
 
         {/* VIEW 3: BOOKING EXPERIENCE (Hotels, Guides, Passes, Transport) */}
         {currentView === 'booking' && (
-          <div className="animate-in fade-in duration-200">
+          <div className="animate-in fade-in duration-150">
             <ExperienceBooking
               activeTab={activeBookingTab}
               setActiveTab={setActiveBookingTab}
@@ -171,9 +155,9 @@ export default function App() {
           </div>
         )}
 
-        {/* VIEW 4: LIVE TOURISM HUB (Live Guides & Scheduled Tours) */}
+        {/* VIEW 4: LIVE TOURISM HUB (Ravi Kumar, Sunita Devi & Scheduled Tours) */}
         {currentView === 'live-tourism' && (
-          <div className="animate-in fade-in duration-200">
+          <div className="animate-in fade-in duration-150">
             <LiveTourismHub
               onJoinLiveTour={(tour) => setActiveLiveTour(tour)}
               onBack={() => {
@@ -184,9 +168,9 @@ export default function App() {
           </div>
         )}
 
-        {/* VIEW 5: LOCAL MARKETPLACE (Authentic Tribal Crafts & GI Artifacts) */}
+        {/* VIEW 5: LOCAL MARKETPLACE (Tribal Crafts & GI Artifacts) */}
         {currentView === 'marketplace' && (
-          <div className="animate-in fade-in duration-200">
+          <div className="animate-in fade-in duration-150">
             <MarketplaceView
               onBack={() => {
                 setCurrentView('home');
@@ -198,13 +182,7 @@ export default function App() {
 
       </main>
 
-      {/* Official Government Footer */}
-      <Footer onOpen3D={() => {
-        setCurrentView('3d-explorer');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }} />
-
-      {/* Floating Quick Action Dock */}
+      {/* Floating Action Dock matching Figma bottom right */}
       <FloatingActions
         onOpenHelpBot={() => setIsHelpBotOpen(true)}
         onOpenEmergency={() => setIsEmergencyOpen(true)}
@@ -214,7 +192,7 @@ export default function App() {
         }}
       />
 
-      {/* MODAL 1: AI Help Bot Assistant */}
+      {/* MODAL 1: AI Help Bot */}
       {isHelpBotOpen && (
         <HelpBotModal onClose={() => setIsHelpBotOpen(false)} />
       )}
@@ -244,7 +222,7 @@ export default function App() {
         />
       )}
 
-      {/* MODAL 5: Interactive Live Streaming Room */}
+      {/* MODAL 5: Interactive Live Stream Room (matching media_1792582051194_d4f1a3c9.png) */}
       {activeLiveTour && (
         <LiveStreamRoom
           tour={activeLiveTour}
@@ -252,7 +230,7 @@ export default function App() {
         />
       )}
 
-      {/* MODAL 6: Role Based Login Portal */}
+      {/* MODAL 6: Role Based Login Dialog */}
       {isLoginOpen && (
         <LoginModal
           initialRole={loginRole}

@@ -2,316 +2,237 @@ import React, { useState, useEffect, useRef } from 'react';
 import { 
   X, 
   Heart, 
-  Send, 
-  Users, 
-  Volume2, 
-  VolumeX, 
-  Sparkles, 
-  MessageSquare,
-  Gift,
-  Share2,
-  CheckCircle
+  Share2, 
+  Gift, 
+  MapPin, 
+  Eye, 
+  Clock, 
+  Send
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { api } from '../services/api';
 
 export default function LiveStreamRoom({ tour, onClose }) {
-  const [messages, setMessages] = useState([]);
-  const [inputMessage, setInputMessage] = useState('');
-  const [likes, setLikes] = useState(142);
-  const [floatingHearts, setFloatingHearts] = useState([]);
-  const [isMuted, setIsMuted] = useState(false);
-  const [showTipModal, setShowTipModal] = useState(false);
-  const [tipSuccess, setTipSuccess] = useState(false);
-  const chatEndRef = useRef(null);
-
-  // Load chat messages and likes on tour mount
-  useEffect(() => {
-    let isMounted = true;
-    const fetchChatAndLikes = async () => {
-      if (!tour) return;
-      const initialMsgs = await api.getTourChat(tour.id);
-      if (initialMsgs && isMounted) {
-        setMessages(initialMsgs);
-      }
-      const likesRes = await api.likeTour(tour.id);
-      if (likesRes && isMounted) {
-        setLikes(likesRes.likes || 142);
-      }
-    };
-    fetchChatAndLikes();
-
-    // Auto simulated incoming chat for vibrant experience
-    const interval = setInterval(() => {
-      const simulatedSenders = [
-        { user: 'Sanjay Murmu', msg: 'The sound of the waterfall is crystal clear!' },
-        { user: 'Anjali Gupta', msg: 'Are those wild elephants near the watering hole?' },
-        { user: 'Rohit Soren', msg: 'Johar guide ji! Wonderful presentation.' }
-      ];
-      const randomItem = simulatedSenders[Math.floor(Math.random() * simulatedSenders.length)];
-      setMessages(prev => [
-        ...prev.slice(-40),
-        {
-          id: Date.now().toString(),
-          user: randomItem.user,
-          message: randomItem.msg,
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          isGuide: false
-        }
-      ]);
-    }, 12000);
-
-    return () => {
-      isMounted = false;
-      clearInterval(interval);
-    };
-  }, [tour]);
-
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
-
-  const handleLike = async () => {
-    setLikes(prev => prev + 1);
-    
-    // Add floating heart
-    const newHeartId = Date.now() + Math.random();
-    setFloatingHearts(prev => [...prev, newHeartId]);
-    setTimeout(() => {
-      setFloatingHearts(prev => prev.filter(id => id !== newHeartId));
-    }, 1800);
-
-    if (tour) {
-      await api.likeTour(tour.id);
+  const [likes, setLikes] = useState(447);
+  const [hasLiked, setHasLiked] = useState(false);
+  const [messages, setMessages] = useState([
+    {
+      id: '1',
+      avatar: 'T',
+      user: 'Tourist123',
+      text: 'Wow! This waterfall is amazing!',
+      time: '2:41:37 PM',
+      isGuide: false
+    },
+    {
+      id: '2',
+      avatar: 'R',
+      user: 'Ravi Kumar',
+      isGuide: true,
+      text: "Thank you! This is one of Jharkhand's most beautiful waterfalls. The water drops from 74 meters!",
+      time: '2:42:37 PM'
+    },
+    {
+      id: '3',
+      avatar: 'N',
+      user: 'NatureLover',
+      text: 'Can you show us the rainbow in the mist?',
+      time: '2:43:37 PM',
+      isGuide: false
+    },
+    {
+      id: '4',
+      avatar: 'R',
+      user: 'Ravi Kumar',
+      isGuide: true,
+      text: 'Absolutely! Let me position the camera to catch the rainbow. You can see it best around noon.',
+      time: '2:44:37 PM'
     }
+  ]);
+  const [inputMessage, setInputMessage] = useState('');
+  const chatBottomRef = useRef(null);
+
+  const handleLike = () => {
+    setLikes(prev => prev + 1);
+    setHasLiked(true);
   };
 
-  const handleSendMessage = async (e) => {
+  const handleSendTip = () => {
+    confetti({
+      particleCount: 70,
+      spread: 60,
+      origin: { y: 0.7 }
+    });
+    alert('Thank you for tipping the guide!');
+  };
+
+  const handleSendMessage = (e) => {
     e.preventDefault();
     if (!inputMessage.trim()) return;
 
-    const newMsg = {
-      id: Date.now().toString(),
-      user: 'You (Tourist)',
-      message: inputMessage.trim(),
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      isGuide: false
-    };
-
-    setMessages(prev => [...prev, newMsg]);
+    setMessages(prev => [
+      ...prev,
+      {
+        id: Date.now().toString(),
+        avatar: 'Y',
+        user: 'You',
+        text: inputMessage.trim(),
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        isGuide: false
+      }
+    ]);
     setInputMessage('');
-
-    if (tour) {
-      await api.sendTourChat(tour.id, newMsg);
-    }
   };
 
-  const handleSendTip = (amount) => {
-    confetti({
-      particleCount: 80,
-      spread: 70,
-      origin: { y: 0.6 }
-    });
-    setTipSuccess(true);
-    setTimeout(() => {
-      setShowTipModal(false);
-      setTipSuccess(false);
-    }, 1800);
-  };
-
-  if (!tour) return null;
+  useEffect(() => {
+    chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   return (
-    <div className="fixed inset-0 z-50 bg-stone-950/95 backdrop-blur-xl flex flex-col lg:flex-row text-white overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-black flex flex-col lg:flex-row overflow-hidden font-sans">
       
-      {/* LEFT: Video Stream Viewport */}
-      <div className="flex-1 flex flex-col relative bg-black">
+      {/* LEFT: Video Viewport matching Figma media_1792582051194_d4f1a3c9.png */}
+      <div className="flex-1 relative bg-black flex items-center justify-center">
         
-        {/* Top Floating Controls */}
-        <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
-          <div className="flex items-center gap-3 pointer-events-auto bg-stone-900/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/10">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
-            <span className="text-xs font-extrabold uppercase tracking-wider text-rose-400">LIVE</span>
-            <span className="text-slate-400 text-xs">|</span>
-            <span className="text-xs text-white font-semibold flex items-center gap-1.5">
-              <Users className="w-3.5 h-3.5 text-slate-300" />
-              <span>{tour.viewerCount + 3} watching</span>
+        {/* Stream video */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+          src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+        />
+
+        {/* Live indicator top-left */}
+        <div className="absolute top-4 left-4 z-20">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-600 text-white text-xs font-bold shadow-md">
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+            <span>Live Now</span>
+          </span>
+        </div>
+
+        {/* Close Button top-right */}
+        <div className="absolute top-4 right-4 z-20">
+          <button
+            onClick={onClose}
+            className="w-8 h-8 rounded-lg bg-black/60 hover:bg-black/90 text-white flex items-center justify-center transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Bottom Left Info Overlay */}
+        <div className="absolute bottom-6 left-6 z-20 text-white">
+          <h2 className="text-xl sm:text-2xl font-bold drop-shadow-md">
+            Hundru Falls Live Tour
+          </h2>
+          <div className="flex items-center gap-3 text-xs text-white/90 font-medium mt-1 drop-shadow">
+            <span className="flex items-center gap-1">
+              <MapPin className="w-3.5 h-3.5 text-orange-400" />
+              <span>Hundru Falls, Ranchi</span>
+            </span>
+            <span>•</span>
+            <span className="flex items-center gap-1">
+              <Eye className="w-3.5 h-3.5" />
+              <span>1247 viewers</span>
+            </span>
+            <span>•</span>
+            <span className="flex items-center gap-1">
+              <Clock className="w-3.5 h-3.5" />
+              <span>45 min</span>
             </span>
           </div>
-
-          <div className="flex items-center gap-2 pointer-events-auto">
-            <button
-              onClick={() => setIsMuted(!isMuted)}
-              className="p-2.5 rounded-xl bg-stone-900/80 backdrop-blur-md hover:bg-stone-800 text-white border border-white/10"
-            >
-              {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-white" />}
-            </button>
-            <button
-              onClick={onClose}
-              className="p-2.5 rounded-xl bg-stone-900/80 backdrop-blur-md hover:bg-stone-800 text-white border border-white/10"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
         </div>
 
-        {/* Video Player */}
-        <div className="flex-1 relative flex items-center justify-center overflow-hidden">
-          <video
-            autoPlay
-            loop
-            muted={isMuted}
-            playsInline
-            className="w-full h-full object-cover"
-            src={tour.streamUrl || "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"}
-          />
-          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-black/40 pointer-events-none"></div>
+        {/* Bottom Right Actions Overlay (Exact Figma Pill Buttons) */}
+        <div className="absolute bottom-6 right-6 z-20 flex items-center gap-2">
+          <button
+            onClick={handleLike}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-white/95 text-slate-800 text-xs font-semibold shadow-md hover:bg-white"
+          >
+            <Heart className={`w-3.5 h-3.5 ${hasLiked ? 'fill-red-500 text-red-500' : 'text-slate-700'}`} />
+            <span>{likes}</span>
+          </button>
 
-          {/* Floating Hearts Animation Container */}
-          <div className="absolute bottom-20 right-8 pointer-events-none z-30">
-            {floatingHearts.map((id) => (
-              <div
-                key={id}
-                className="absolute bottom-0 right-0 animate-in fade-in zoom-in slide-out-to-top-36 duration-1000 text-rose-500 fill-rose-500"
-              >
-                <Heart className="w-8 h-8 fill-rose-500" />
-              </div>
-            ))}
-          </div>
-        </div>
+          <button
+            onClick={() => navigator.clipboard?.writeText(window.location.href)}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-white/95 text-slate-800 text-xs font-semibold shadow-md hover:bg-white"
+          >
+            <Share2 className="w-3.5 h-3.5 text-slate-700" />
+            <span>Share</span>
+          </button>
 
-        {/* Bottom Tour Info & Guide Controls */}
-        <div className="p-4 sm:p-6 bg-stone-900/90 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <img
-              src={tour.guideAvatar}
-              alt={tour.guideName}
-              className="w-12 h-12 rounded-full object-cover border-2 border-orange-500 shadow-md"
-            />
-            <div>
-              <div className="flex items-center gap-1.5">
-                <h3 className="font-extrabold text-sm sm:text-base text-white">{tour.guideName}</h3>
-                <CheckCircle className="w-4 h-4 text-emerald-500" />
-              </div>
-              <p className="text-xs text-amber-300 font-medium">{tour.title} • {tour.destination}</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 w-full sm:w-auto">
-            {/* Heart Like Trigger */}
-            <button
-              onClick={handleLike}
-              className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-rose-500/20 text-white hover:text-rose-400 border border-white/10 transition-all font-bold text-xs"
-            >
-              <Heart className="w-4 h-4 fill-rose-500 text-rose-500" />
-              <span>{likes}</span>
-            </button>
-
-            {/* Tip Guide Trigger */}
-            <button
-              onClick={() => setShowTipModal(true)}
-              className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-linear-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-xs shadow-md shadow-orange-500/20 transition-all"
-            >
-              <Gift className="w-4 h-4" />
-              <span>Tip Guide</span>
-            </button>
-          </div>
+          <button
+            onClick={handleSendTip}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-white/95 text-slate-800 text-xs font-semibold shadow-md hover:bg-white"
+          >
+            <Gift className="w-3.5 h-3.5 text-slate-700" />
+            <span>Send Tip</span>
+          </button>
         </div>
 
       </div>
 
-      {/* RIGHT: Live Interactive Chat Drawer */}
-      <div className="w-full lg:w-96 h-80 lg:h-full bg-stone-900 border-l border-white/10 flex flex-col">
-        {/* Chat Header */}
-        <div className="p-4 border-b border-white/10 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-stone-300">
-            <MessageSquare className="w-4 h-4 text-orange-400" />
-            <span>Live Tour Chat Feed</span>
+      {/* RIGHT: Pure White Chat Feed Panel matching Figma */}
+      <div className="w-full lg:w-96 bg-white h-72 lg:h-full border-l border-slate-200 flex flex-col justify-between">
+        
+        {/* Top Guide Header */}
+        <div className="p-4 border-b border-slate-100 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-700 text-sm">
+            R
           </div>
-          <span className="text-[10px] text-emerald-400 bg-emerald-500/20 px-2 py-0.5 rounded-full font-semibold">
-            Realtime
-          </span>
+          <div>
+            <h4 className="font-bold text-sm text-slate-900">Ravi Kumar</h4>
+            <p className="text-xs text-slate-500">Tour Guide</p>
+          </div>
         </div>
 
-        {/* Chat Feed */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-3 text-xs">
+        {/* Messages Container */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs">
           {messages.map((m) => (
-            <div 
-              key={m.id}
-              className={`p-3 rounded-2xl ${
-                m.isGuide 
-                  ? 'bg-amber-950/70 border border-amber-600/40 text-amber-100' 
-                  : 'bg-white/5 border border-white/5 text-stone-200'
-              }`}
-            >
-              <div className="flex items-center justify-between mb-1">
-                <span className={`font-bold ${m.isGuide ? 'text-amber-300 flex items-center gap-1' : 'text-orange-400'}`}>
-                  {m.user} {m.isGuide && '★'}
-                </span>
-                <span className="text-[10px] text-stone-400">{m.timestamp}</span>
+            <div key={m.id} className="space-y-1">
+              <div className="flex items-center gap-2">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center font-bold text-[10px] ${
+                  m.isGuide ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-700'
+                }`}>
+                  {m.avatar}
+                </div>
+                <span className="font-bold text-slate-900">{m.user}</span>
+                {m.isGuide && (
+                  <span className="px-1.5 py-0.2 bg-blue-50 text-blue-600 text-[10px] font-semibold rounded">
+                    Guide
+                  </span>
+                )}
               </div>
-              <p className="leading-relaxed">{m.message}</p>
+              <p className="text-slate-700 pl-8 leading-relaxed">
+                {m.text}
+              </p>
+              <div className="text-[10px] text-slate-400 pl-8">
+                {m.time}
+              </div>
             </div>
           ))}
-          <div ref={chatEndRef} />
+          <div ref={chatBottomRef} />
         </div>
 
-        {/* Input Box */}
-        <form onSubmit={handleSendMessage} className="p-3 border-t border-white/10 flex items-center gap-2">
+        {/* Input Bar */}
+        <form onSubmit={handleSendMessage} className="p-3 border-t border-slate-100 flex items-center gap-2">
           <input
             type="text"
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
-            placeholder="Ask guide a question..."
-            className="flex-1 bg-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-stone-400 border border-white/10 focus:outline-hidden focus:ring-1 focus:ring-orange-500"
+            placeholder="Type your message..."
+            className="flex-1 px-3.5 py-2 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-hidden focus:bg-white"
           />
           <button
             type="submit"
-            className="p-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-bold transition-colors"
+            className="p-2 rounded-xl bg-slate-950 text-white hover:bg-slate-800"
           >
-            <Send className="w-4 h-4" />
+            <Send className="w-3.5 h-3.5" />
           </button>
         </form>
+
       </div>
-
-      {/* Tipping Modal */}
-      {showTipModal && (
-        <div className="fixed inset-0 z-60 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-stone-900 border border-white/10 rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center">
-            <Gift className="w-12 h-12 text-amber-400 mx-auto mb-4 animate-bounce" />
-            <h3 className="text-xl font-bold text-white">Directly Support Tribal Guides</h3>
-            <p className="text-xs text-stone-400 mt-2">
-              100% of your voluntary contribution goes directly into the guide's verified bank account.
-            </p>
-
-            {tipSuccess ? (
-              <div className="mt-6 p-4 rounded-2xl bg-emerald-500/20 text-emerald-300 text-sm font-bold animate-in zoom-in">
-                🎉 Thank you for supporting {tour.guideName}!
-              </div>
-            ) : (
-              <div className="mt-6 space-y-3">
-                <div className="grid grid-cols-3 gap-3">
-                  {[50, 100, 200].map((amt) => (
-                    <button
-                      key={amt}
-                      onClick={() => handleSendTip(amt)}
-                      className="py-3 rounded-2xl bg-white/10 hover:bg-orange-600 text-white font-extrabold text-sm border border-white/10 transition-colors"
-                    >
-                      ₹{amt}
-                    </button>
-                  ))}
-                </div>
-                <button
-                  onClick={() => setShowTipModal(false)}
-                  className="w-full py-2.5 rounded-xl text-stone-400 text-xs font-semibold hover:text-white"
-                >
-                  Cancel
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
     </div>
   );
