@@ -13,7 +13,7 @@ export default function TourismStatistics() {
     <section className="py-12 sm:py-16 bg-white border-t border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Title matching Figma media_1792582024687_2674ec66.png */}
+        {/* Title */}
         <div className="text-center mb-12">
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
             Tourism Statistics

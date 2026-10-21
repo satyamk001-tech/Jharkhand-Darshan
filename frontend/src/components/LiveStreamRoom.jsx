@@ -90,12 +90,12 @@ export default function LiveStreamRoom({ tour, onClose }) {
   return (
     <div className="fixed inset-0 z-50 bg-black flex flex-col lg:flex-row overflow-hidden font-sans">
       
-      {/* LEFT: Video Viewport matching Figma media_1792582051194_d4f1a3c9.png */}
+      {/* LEFT: Video Viewport */}
       <div className="flex-1 relative bg-black flex items-center justify-center">
         
-        {/* Stream video / background photo matching Figma media_1792582051194_d4f1a3c9.png */}
+        {/* Stream video / background photo */}
         <img
-          src="/figma_assets/livestream_hundru.png"
+          src="/portal_assets/livestream_hundru.png"
           alt="Hundru Falls Live View"
           className="w-full h-full object-cover"
         />
@@ -141,7 +141,7 @@ export default function LiveStreamRoom({ tour, onClose }) {
           </div>
         </div>
 
-        {/* Bottom Right Actions Overlay (Exact Figma Pill Buttons) */}
+        {/* Bottom Right Actions Overlay (Pill Buttons) */}
         <div className="absolute bottom-6 right-6 z-20 flex items-center gap-2">
           <button
             onClick={handleLike}
@@ -170,7 +170,7 @@ export default function LiveStreamRoom({ tour, onClose }) {
 
       </div>
 
-      {/* RIGHT: Pure White Chat Feed Panel matching Figma */}
+      {/* RIGHT: Pure White Chat Feed Panel */}
       <div className="w-full lg:w-96 bg-white h-72 lg:h-full border-l border-slate-200 flex flex-col justify-between">
         
         {/* Top Guide Header */}

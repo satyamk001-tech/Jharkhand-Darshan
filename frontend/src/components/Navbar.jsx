@@ -43,7 +43,7 @@ export default function Navbar({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           
-          {/* Brand Logo matching Figma Screenshot */}
+          {/* Brand Logo */}
           <div 
             onClick={() => {
               setActiveNav('home');
@@ -52,7 +52,7 @@ export default function Navbar({
             className="flex items-center gap-3 cursor-pointer select-none group"
           >
             <div className="w-8 h-8 rounded-lg overflow-hidden shrink-0 shadow-xs flex items-center justify-center">
-              <img src="/figma_assets/figma_logo.png" alt="Jharkhand Darshan Logo" className="w-full h-full object-cover" />
+              <img src="/portal_assets/jharkhand_logo.png" alt="Jharkhand Darshan Logo" className="w-full h-full object-cover" />
             </div>
             <div>
               <h1 className="text-base font-bold text-slate-900 leading-tight">
@@ -64,7 +64,7 @@ export default function Navbar({
             </div>
           </div>
 
-          {/* Center Navigation Links (Exact Figma style) */}
+          {/* Center Navigation Links */}
           <nav className="hidden md:flex items-center gap-4">
             <button
               onClick={() => {
@@ -221,7 +221,7 @@ export default function Navbar({
               </div>
             )}
 
-            {/* Online Indicator Badge matching Figma */}
+            {/* Online Indicator Badge */}
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-xs text-slate-700 bg-slate-50/50">
               <Globe className="w-3.5 h-3.5 text-slate-500" />
               <span>Online</span>

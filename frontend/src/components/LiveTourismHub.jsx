@@ -19,7 +19,7 @@ export default function LiveTourismHub({ onJoinLiveTour, onBack }) {
           <span>Back to Home</span>
         </button>
 
-        {/* Live Guides Grid matching Figma media_1792582024713_71048886.png */}
+        {/* Live Guides Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12">
           {liveTours.map((tour) => (
             <div

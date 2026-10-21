@@ -1,4 +1,4 @@
-// Authentic Jharkhand Darshan Dataset matching Figma screenshots 1:1
+// Authentic Jharkhand Darshan Portal Dataset
 
 export const TOURISM_SERVICES = [
   {
@@ -63,7 +63,7 @@ export const BOOKING_ITEMS = {
       numericPrice: 3500,
       rating: 4.5,
       tag: 'Jharkhand Special',
-      image: '/figma_assets/hotel_ranchi.png',
+      image: '/portal_assets/hotel_ranchi.png',
       features: ['Free WiFi', 'Swimming Pool', 'Spa']
     },
     {
@@ -75,7 +75,7 @@ export const BOOKING_ITEMS = {
       numericPrice: 2800,
       rating: 4.3,
       tag: 'Jharkhand Special',
-      image: '/figma_assets/hotel_netarhat.png',
+      image: '/portal_assets/hotel_netarhat.png',
       features: ['Nature Walks', 'Sunrise View', 'Bonfire']
     },
     {
@@ -87,7 +87,7 @@ export const BOOKING_ITEMS = {
       numericPrice: 4200,
       rating: 4.2,
       tag: null,
-      image: '/figma_assets/hotel_jamshedpur.png',
+      image: '/portal_assets/hotel_jamshedpur.png',
       features: ['Conference Hall', 'Gym', 'Room Service']
     }
   ],
@@ -140,7 +140,7 @@ export const BOOKING_ITEMS = {
       numericPrice: 750,
       rating: 4.9,
       tag: 'Jharkhand Special',
-      image: '/figma_assets/pass_sarhul.png',
+      image: '/portal_assets/pass_sarhul.png',
       features: ['Cultural Performances', 'Traditional Food', 'Crafts Fair']
     },
     {
@@ -153,7 +153,7 @@ export const BOOKING_ITEMS = {
       numericPrice: 500,
       rating: 4.7,
       tag: 'Jharkhand Special',
-      image: '/figma_assets/featured_tribal.png',
+      image: '/portal_assets/featured_tribal.png',
       features: ['Folk Dances', 'Local Music', 'Traditional Games']
     },
     {
@@ -166,7 +166,7 @@ export const BOOKING_ITEMS = {
       numericPrice: 600,
       rating: 4.9,
       tag: null,
-      image: '/figma_assets/featured_palamau.png',
+      image: '/portal_assets/featured_palamau.png',
       features: ['Masked Dance Arena', 'Palace Grounds', 'Meet Master Artisans']
     }
   ],
@@ -240,7 +240,7 @@ export const LIVE_TOURS_DATA = [
     startTime: 'Tomorrow 10:00 AM',
     price: 499,
     status: 'SCHEDULED',
-    image: '/figma_assets/tour_palamau.png'
+    image: '/portal_assets/tour_palamau.png'
   }
 ];
 

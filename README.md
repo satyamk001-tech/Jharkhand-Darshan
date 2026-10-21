@@ -1,6 +1,6 @@
 # 🌄 Jharkhand Darshan — Official Tourism & Travel Portal
 
-[![Figma Prototype](https://img.shields.io/badge/Figma-1%3A1%20Pixel--Perfect%20Replica-F24E1E?logo=figma&logoColor=white)](https://www.figma.com/make/Y59KseSU70uRQq3OcHCA5U/Government-Website-UI-Design?code-node-id=0-9&p=f&t=fUdtDM52GYcyF4dz-0&fullscreen=1)
+[![UI Specification](https://img.shields.io/badge/UI%20Design-1%3A1%20Pixel--Perfect%20Replica-0284C7?logo=materialdesign&logoColor=white)](#)
 [![Frontend](https://img.shields.io/badge/Frontend-React%2018%20%7C%20Vite%206%20%7C%20Tailwind%20CSS-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![Backend](https://img.shields.io/badge/Backend-Spring%20Boot%203.3.4%20%7C%20Java%2021-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
 [![Database](https://img.shields.io/badge/Database-PostgreSQL%2016-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
@@ -9,16 +9,16 @@
 [![Swagger Docs](https://img.shields.io/badge/API%20Docs-Swagger%20%2F%20OpenAPI%203.0-85EA2D?logo=swagger&logoColor=black)](http://localhost:8080/swagger-ui.html)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-**Jharkhand Darshan** is an enterprise-grade, full-stack tourism and cultural portal built as an **exact 1:1 replica** of the [Figma Government Website UI Design](https://www.figma.com/make/Y59KseSU70uRQq3OcHCA5U/Government-Website-UI-Design?code-node-id=0-9&p=f&t=fUdtDM52GYcyF4dz-0&fullscreen=1). 
+**Jharkhand Darshan** is an enterprise-grade, full-stack tourism and cultural portal built as an **exact 1:1 replica** of the official Government Website UI Design specification. 
 
 Built for the **Department of Tourism, Government of Jharkhand**, the portal promotes sustainable eco-tourism, living tribal traditions, sacred pilgrimage circuits, and fair-trade handicraft commerce across all 24 districts with **100% authentic regional photography and zero foreign stock imagery**.
 
 ---
 
-## 🎨 Figma Design Replication Overview
+## 🎨 Design Specification & Architecture Overview
 
-This project directly reproduces every screen, interaction, layout, and visual token specified in the Figma prototype:
-- **Design Prototype Link**: [Figma: Government Website UI Design](https://www.figma.com/make/Y59KseSU70uRQq3OcHCA5U/Government-Website-UI-Design?code-node-id=0-9&p=f&t=fUdtDM52GYcyF4dz-0&fullscreen=1)
+This project directly reproduces every screen, interaction, layout, and visual token specified in the official UI design:
+- **UI Design System**: Official Government Tourism Portal UI Design & Visual Tokens
 - **Extracted Design Assets**: Native orange shield logo emblem, Hundru Falls, tribal festival performers, Palamau tiger conservation dancers, certified eco-resorts, and authentic live stream captures directly cropped and rendered from the original design canvas.
 - **Strict Uniform Sizing**: Card boxes and image frames (`h-52 w-full shrink-0 object-cover`) across Tour Guides, Transportation, 3D Explorer, and Local Marketplace maintain identical height and horizontal alignment.
 
@@ -55,7 +55,7 @@ This project directly reproduces every screen, interaction, layout, and visual t
 
 ## ✨ Features & Interface Modules
 
-### 1. 🏛️ Exact Figma Home Page
+### 1. 🏛️ Government Portal Home Page
 - **Government Header / Navbar**:
   - Official orange shield logo emblem + `Jharkhand Darshan` title & `Tourism & Travel Portal` subtitle.
   - Active black rounded pill `[ ⌂ Home ]`, `3D Explorer`, `Help Bot`, and red `Emergency`.
@@ -152,7 +152,7 @@ The portal features a unified Single Sign-On (SSO) system with 3 distinct user r
 |---|---|---|---|
 | **Frontend Framework** | React | `18.3.1` | Reactive component tree & state management |
 | **Build Tool** | Vite | `6.4.5` | Lightning-fast HMR and optimized production bundles |
-| **CSS Framework** | Tailwind CSS | `3.4.1` | Utility-first responsive design matching Figma tokens |
+| **CSS Framework** | Tailwind CSS | `3.4.1` | Utility-first responsive design matching government visual tokens |
 | **Icons** | Lucide React | `0.453.0` | Crisp SVG iconography |
 | **Visual FX** | Canvas Confetti | `1.9.4` | Particle celebration animations for bookings and tipping |
 | **Backend Framework** | Spring Boot | `3.3.4` | Enterprise RESTful web services |
@@ -272,8 +272,8 @@ Jharkhand-Darshan/
 │   └── pom.xml                               # Maven Project Dependencies
 ├── frontend/                                 # React 18 + Vite Application
 │   ├── public/
-│   │   └── figma_assets/                     # 1:1 Extracted Figma Prototype Assets
-│   │       ├── figma_logo.png                # Official Orange Shield Logo Emblem
+│   │   └── portal_assets/                    # 1:1 Extracted Portal Design Assets
+│   │       ├── jharkhand_logo.png            # Official Orange Shield Logo Emblem
 │   │       ├── featured_hundru.png           # Authentic Hundru Falls Photo
 │   │       ├── featured_tribal.png           # Authentic Tribal Festival Dancers
 │   │       ├── featured_palamau.png          # Palamau Tiger Conservation Dancers

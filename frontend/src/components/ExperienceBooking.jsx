@@ -42,7 +42,7 @@ export default function ExperienceBooking({ activeTab = 'hotels', setActiveTab, 
           <span>Back to Home</span>
         </button>
 
-        {/* Title & Subtitle matching Figma media_1792581974243_8613e6b4.png */}
+        {/* Title & Subtitle */}
         <div className="text-center max-w-3xl mx-auto mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
             Book Your Jharkhand Experience
@@ -52,7 +52,7 @@ export default function ExperienceBooking({ activeTab = 'hotels', setActiveTab, 
           </p>
         </div>
 
-        {/* Search & Filter Bar matching Figma */}
+        {/* Search & Filter Bar */}
         <div className="max-w-4xl mx-auto mb-6 flex items-center gap-3">
           <div className="relative flex-1">
             <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
@@ -94,7 +94,7 @@ export default function ExperienceBooking({ activeTab = 'hotels', setActiveTab, 
           </div>
         </div>
 
-        {/* 3 Cards per row Grid matching Figma with exact same box and image size */}
+        {/* 3 Cards per row Grid with exact same box and image size */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
           {filteredItems.map((item) => (
             <div

@@ -46,14 +46,14 @@ export default function TourismServices({ onSelectService, onOpenMarketplace, on
     <section className="py-12 sm:py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Exact Figma Heading matching media_1792581964363_34582567.png */}
+        {/* Heading */}
         <div className="text-center mb-10 sm:mb-12">
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
             Tourism Services
           </h2>
         </div>
 
-        {/* 6 Core Services Grid matching Figma media_1792581964363_34582567.png */}
+        {/* 6 Core Services Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {TOURISM_SERVICES.map((service) => {
             const isMarketplace = service.id === 'market';
@@ -63,7 +63,7 @@ export default function TourismServices({ onSelectService, onOpenMarketplace, on
                 onClick={() => handleCardClick(service)}
                 className="group cursor-pointer bg-white rounded-2xl p-8 border border-slate-200/80 shadow-2xs hover:shadow-md hover:border-slate-300 transition-all duration-200 flex flex-col items-center text-center"
               >
-                {/* Icon Container matching Figma */}
+                {/* Icon Container */}
                 <div 
                   className={`w-12 h-12 rounded-full flex items-center justify-center mb-4 transition-transform group-hover:scale-105 ${
                     isMarketplace 

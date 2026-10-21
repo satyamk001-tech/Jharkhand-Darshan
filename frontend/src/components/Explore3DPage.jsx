@@ -13,7 +13,7 @@ import {
   LayoutGrid
 } from 'lucide-react';
 
-export const FIGMA_3D_DESTINATIONS = [
+export const JHARKHAND_3D_DESTINATIONS = [
   {
     id: 1,
     name: 'Hundru Falls',
@@ -23,7 +23,7 @@ export const FIGMA_3D_DESTINATIONS = [
     visitors: '150K/year',
     duration: '4-5 hours',
     transports: ['car', 'bus'],
-    image: '/figma_assets/featured_hundru.png',
+    image: '/portal_assets/featured_hundru.png',
     district: 'Ranchi',
     coordinates: { x: 52, y: 55 } // % on schematic map
   },
@@ -175,7 +175,7 @@ export default function Explore3DPage({ onSelectDestination, onBackToHome }) {
     { id: 'heritage', label: 'Heritage' },
   ];
 
-  const filtered = FIGMA_3D_DESTINATIONS.filter(item => {
+  const filtered = JHARKHAND_3D_DESTINATIONS.filter(item => {
     const matchesCat = selectedCategory === 'all' || item.category === selectedCategory;
     const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -186,7 +186,7 @@ export default function Explore3DPage({ onSelectDestination, onBackToHome }) {
   return (
     <div className="bg-slate-50 min-h-screen">
       
-      {/* Top Banner matching Figma media_1792583542880_71e5858d.png */}
+      {/* Top Banner with Panoramic Landscape */}
       <div className="relative bg-slate-900 text-white py-14 sm:py-20 px-4 sm:px-6 lg:px-8 text-center overflow-hidden">
         
         {/* Background photo with dark mask */}
@@ -209,7 +209,7 @@ export default function Explore3DPage({ onSelectDestination, onBackToHome }) {
             <span>Home</span>
           </button>
 
-          {/* Heading matching Figma */}
+          {/* Heading */}
           <div className="flex items-center justify-center gap-2 mb-2">
             <Compass className="w-6 h-6 text-orange-500 animate-spin-slow" />
             <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-white">
@@ -221,7 +221,7 @@ export default function Explore3DPage({ onSelectDestination, onBackToHome }) {
             Discover the pristine beauty of Jharkhand's hidden gems
           </p>
 
-          {/* Search & Category Pills Container matching Figma */}
+          {/* Search & Category Pills Container */}
           <div className="mt-8 bg-white/95 backdrop-blur-md rounded-2xl p-2.5 shadow-xl flex flex-col md:flex-row items-center gap-2 max-w-4xl mx-auto text-slate-800">
             
             {/* Search Input */}
@@ -391,7 +391,7 @@ export default function Explore3DPage({ onSelectDestination, onBackToHome }) {
         </div>
       )}
 
-      {/* VIEW MODE 2: FIGMA 3 CARDS PER ROW GRID WITH EXACT UNIFORM BOX AND IMAGE SIZE */}
+      {/* VIEW MODE 2: 3 CARDS PER ROW GRID WITH EXACT UNIFORM BOX AND IMAGE SIZE */}
       {viewMode === 'grid' && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 animate-in fade-in duration-200">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">

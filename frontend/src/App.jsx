@@ -20,7 +20,7 @@ import LiveStreamRoom from './components/LiveStreamRoom';
 import LoginModal from './components/LoginModal';
 import RoleDashboardModal from './components/RoleDashboardModal';
 
-import { FIGMA_3D_DESTINATIONS } from './components/Explore3DPage';
+import { JHARKHAND_3D_DESTINATIONS } from './components/Explore3DPage';
 
 export default function App() {
   // Navigation State from URL search params or default: 'home' | '3d-explorer' | 'booking' | 'live-tourism' | 'marketplace'
@@ -49,7 +49,7 @@ export default function App() {
   const [isHelpBotOpen, setIsHelpBotOpen] = useState(false);
   const [isEmergencyOpen, setIsEmergencyOpen] = useState(false);
   const [isThreeDModalOpen, setIsThreeDModalOpen] = useState(false);
-  const [selectedThreeDSpot, setSelectedThreeDSpot] = useState(FIGMA_3D_DESTINATIONS[0]);
+  const [selectedThreeDSpot, setSelectedThreeDSpot] = useState(JHARKHAND_3D_DESTINATIONS[0]);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [loginRole, setLoginRole] = useState('tourist');
   const [isRoleDashboardOpen, setIsRoleDashboardOpen] = useState(false);
@@ -109,7 +109,7 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-800 font-sans antialiased selection:bg-orange-500 selection:text-white">
       
-      {/* 1. Top Navigation Bar matching Figma Screenshot */}
+      {/* 1. Top Navigation Bar */}
       <Navbar
         activeNav={currentView === '3d-explorer' ? '3d' : currentView === 'home' ? 'home' : ''}
         setActiveNav={(nav) => {
@@ -139,10 +139,10 @@ export default function App() {
       {/* Main Dynamic View Content */}
       <main className="flex-1">
         
-        {/* VIEW 1: HOME PAGE (Sequential Figma design: Hero -> Featured Destinations -> Tourism Services -> Tourism Statistics) */}
+        {/* VIEW 1: HOME PAGE (Hero -> Featured Destinations -> Tourism Services -> Tourism Statistics) */}
         {currentView === 'home' && (
           <div className="animate-in fade-in duration-150">
-            {/* 1. Hero Section matching Figma media_1792581964300_dab2f44f.png */}
+            {/* 1. Hero Section */}
             <Hero
               onStartExploring={() => {
                 const el = document.getElementById('services-section');
@@ -154,15 +154,15 @@ export default function App() {
               }}
             />
 
-            {/* 2. Featured Destinations matching Figma media_1792581964310_b4280969.png */}
+            {/* 2. Featured Destinations */}
             <FeaturedDestinations
               onSelectDestination={(dest) => {
-                const found = FIGMA_3D_DESTINATIONS.find(d => d.name === dest.name);
-                handleOpen3DView(found || FIGMA_3D_DESTINATIONS[0]);
+                const found = JHARKHAND_3D_DESTINATIONS.find(d => d.name === dest.name);
+                handleOpen3DView(found || JHARKHAND_3D_DESTINATIONS[0]);
               }}
             />
 
-            {/* 3. Tourism Services matching Figma media_1792581964363_34582567.png */}
+            {/* 3. Tourism Services */}
             <div id="services-section">
               <TourismServices
                 onSelectService={(serviceTab) => handleSelectService(serviceTab)}
@@ -171,12 +171,12 @@ export default function App() {
               />
             </div>
 
-            {/* 4. Tourism Statistics matching Figma media_1792582024687_2674ec66.png */}
+            {/* 4. Tourism Statistics */}
             <TourismStatistics />
           </div>
         )}
 
-        {/* VIEW 2: 3D EXPLORER PAGE (Matching Figma media_1792583542880_71e5858d.png) */}
+        {/* VIEW 2: 3D EXPLORER PAGE */}
         {currentView === '3d-explorer' && (
           <div className="animate-in fade-in duration-150">
             <Explore3DPage
@@ -189,7 +189,7 @@ export default function App() {
           </div>
         )}
 
-        {/* VIEW 3: BOOKING EXPERIENCE (Matching Figma media_1792581964326_fc75f990.png) */}
+        {/* VIEW 3: BOOKING EXPERIENCE */}
         {currentView === 'booking' && (
           <div className="animate-in fade-in duration-150">
             <ExperienceBooking
@@ -204,7 +204,7 @@ export default function App() {
           </div>
         )}
 
-        {/* VIEW 4: LIVE TOURISM HUB (Matching Figma media_1792582024713_71048886.png) */}
+        {/* VIEW 4: LIVE TOURISM HUB */}
         {currentView === 'live-tourism' && (
           <div className="animate-in fade-in duration-150">
             <LiveTourismHub
@@ -237,7 +237,7 @@ export default function App() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }} />
 
-      {/* Floating Action Dock matching Figma bottom right */}
+      {/* Floating Action Dock */}
       <FloatingActions
         onOpenHelpBot={() => setIsHelpBotOpen(true)}
         onOpenEmergency={() => setIsEmergencyOpen(true)}
@@ -277,7 +277,7 @@ export default function App() {
         />
       )}
 
-      {/* MODAL 5: Interactive Live Stream Room (Matching Figma media_1792582051194_d4f1a3c9.png) */}
+      {/* MODAL 5: Interactive Live Stream Room */}
       {activeLiveTour && (
         <LiveStreamRoom
           tour={activeLiveTour}
@@ -285,7 +285,7 @@ export default function App() {
         />
       )}
 
-      {/* MODAL 6: Role Based Login Dialog (Matching Figma media_1792583542897_c6c8ddcc.png) */}
+      {/* MODAL 6: Role Based Login Dialog */}
       {isLoginOpen && (
         <LoginModal
           initialRole={loginRole}

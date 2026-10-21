@@ -8,7 +8,7 @@ export default function FeaturedDestinations({ onSelectDestination }) {
       subtitle: '74m high waterfall near Ranchi',
       tag: 'waterfall',
       tagIcon: '≡',
-      image: '/figma_assets/featured_hundru.png'
+      image: '/portal_assets/featured_hundru.png'
     },
     {
       id: 2,
@@ -16,7 +16,7 @@ export default function FeaturedDestinations({ onSelectDestination }) {
       subtitle: 'Experience authentic Santhali culture',
       tag: 'culture',
       tagIcon: '👥',
-      image: '/figma_assets/featured_tribal.png'
+      image: '/portal_assets/featured_tribal.png'
     },
     {
       id: 3,
@@ -24,7 +24,7 @@ export default function FeaturedDestinations({ onSelectDestination }) {
       subtitle: 'Wildlife sanctuary and tiger conservation',
       tag: 'wildlife',
       tagIcon: '▲',
-      image: '/figma_assets/featured_palamau.png'
+      image: '/portal_assets/featured_palamau.png'
     }
   ];
 
@@ -32,14 +32,14 @@ export default function FeaturedDestinations({ onSelectDestination }) {
     <section className="py-12 sm:py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Title matching Figma media_1792581964310_b4280969.png */}
+        {/* Title */}
         <div className="text-center mb-10">
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
             Featured Destinations
           </h2>
         </div>
 
-        {/* 3 Cards Grid matching Figma exact layout */}
+        {/* 3 Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {featured.map((item) => (
             <div

@@ -6,17 +6,17 @@ export default function Hero({ onStartExploring, onOpen3D }) {
     <div className="relative overflow-hidden bg-gradient-to-r from-[#991b1b] via-[#c2410c] to-[#991b1b] text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8 text-center">
       <div className="relative max-w-4xl mx-auto">
         
-        {/* Exact Figma Heading */}
+        {/* Heading */}
         <h1 className="text-3xl sm:text-5xl font-semibold tracking-tight text-white leading-tight">
           Discover the Beauty of Jharkhand
         </h1>
 
-        {/* Exact Figma Subtitle */}
+        {/* Subtitle */}
         <p className="mt-4 text-xs sm:text-base text-white/95 max-w-2xl mx-auto font-normal leading-relaxed">
           Experience rich tribal culture, stunning waterfalls, and pristine forests. Book tours, accommodations, and explore live with local guides.
         </p>
 
-        {/* Exact Figma Action Buttons */}
+        {/* Action Buttons */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <button
             onClick={onStartExploring}
