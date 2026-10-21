@@ -1,5 +1,4 @@
 import React from 'react';
-import { Layers, Users, Compass } from 'lucide-react';
 
 export default function FeaturedDestinations({ onSelectDestination }) {
   const featured = [
@@ -63,11 +62,11 @@ export default function FeaturedDestinations({ onSelectDestination }) {
                 </div>
               </div>
 
-              <div className="p-5">
-                <h3 className="font-bold text-base text-slate-900 group-hover:text-orange-600 transition-colors">
+              <div className="p-6">
+                <h3 className="font-bold text-lg text-slate-900 group-hover:text-orange-600 transition-colors">
                   {item.name}
                 </h3>
-                <p className="mt-1 text-xs text-slate-500 font-normal">
+                <p className="mt-1 text-sm text-slate-500 font-normal">
                   {item.subtitle}
                 </p>
               </div>
