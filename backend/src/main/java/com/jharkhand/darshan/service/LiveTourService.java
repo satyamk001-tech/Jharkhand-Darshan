@@ -3,12 +3,15 @@ package com.jharkhand.darshan.service;
 import com.jharkhand.darshan.dto.ChatMessageDTO;
 import com.jharkhand.darshan.entity.LiveTour;
 import com.jharkhand.darshan.repository.LiveTourRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 public class LiveTourService {
@@ -16,7 +19,12 @@ public class LiveTourService {
     private final LiveTourRepository liveTourRepository;
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public LiveTourService(LiveTourRepository liveTourRepository, RedisTemplate<String, Object> redisTemplate) {
+    // Resilient in-memory fallback stores when Redis is not running
+    private final Map<Long, Long> localLikes = new ConcurrentHashMap<>();
+    private final Map<Long, List<ChatMessageDTO>> localChat = new ConcurrentHashMap<>();
+
+    public LiveTourService(LiveTourRepository liveTourRepository,
+                           @Autowired(required = false) RedisTemplate<String, Object> redisTemplate) {
         this.liveTourRepository = liveTourRepository;
         this.redisTemplate = redisTemplate;
     }
@@ -34,51 +42,73 @@ public class LiveTourService {
     }
 
     public Long incrementLikes(Long tourId) {
-        String key = "tour:likes:" + tourId;
-        try {
-            return redisTemplate.opsForValue().increment(key);
-        } catch (Exception e) {
-            return 1L;
+        if (redisTemplate != null) {
+            try {
+                String key = "tour:likes:" + tourId;
+                Long val = redisTemplate.opsForValue().increment(key);
+                if (val != null) return val;
+            } catch (Exception ignored) {
+                // Redis unavailable, fallback to local memory
+            }
         }
+        return localLikes.compute(tourId, (k, v) -> (v == null ? 142L : v) + 1L);
     }
 
     public Long getLikes(Long tourId) {
-        String key = "tour:likes:" + tourId;
-        try {
-            Object val = redisTemplate.opsForValue().get(key);
-            return val != null ? Long.valueOf(val.toString()) : 142L;
-        } catch (Exception e) {
-            return 142L;
+        if (redisTemplate != null) {
+            try {
+                String key = "tour:likes:" + tourId;
+                Object val = redisTemplate.opsForValue().get(key);
+                if (val != null) {
+                    return Long.valueOf(val.toString());
+                }
+            } catch (Exception ignored) {
+                // Redis unavailable, fallback to local memory
+            }
         }
+        return localLikes.getOrDefault(tourId, 142L);
     }
 
     public void addChatMessage(Long tourId, ChatMessageDTO msg) {
-        String key = "tour:chat:" + tourId;
         if (msg.getTimestamp() == null) {
             msg.setTimestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
         }
-        try {
-            redisTemplate.opsForList().rightPush(key, msg);
-            redisTemplate.opsForList().trim(key, -100, -1); // keep last 100 messages
-        } catch (Exception ignored) {
+        if (redisTemplate != null) {
+            try {
+                String key = "tour:chat:" + tourId;
+                redisTemplate.opsForList().rightPush(key, msg);
+                redisTemplate.opsForList().trim(key, -100, -1); // keep last 100 messages
+                return;
+            } catch (Exception ignored) {
+                // Redis unavailable, fallback to local memory
+            }
         }
+        localChat.computeIfAbsent(tourId, k -> new CopyOnWriteArrayList<>()).add(msg);
     }
 
     @SuppressWarnings("unchecked")
     public List<ChatMessageDTO> getChatMessages(Long tourId) {
-        String key = "tour:chat:" + tourId;
-        try {
-            List<Object> rawList = redisTemplate.opsForList().range(key, 0, -1);
-            if (rawList != null && !rawList.isEmpty()) {
-                List<ChatMessageDTO> msgs = new ArrayList<>();
-                for (Object item : rawList) {
-                    if (item instanceof ChatMessageDTO) {
-                        msgs.add((ChatMessageDTO) item);
+        if (redisTemplate != null) {
+            try {
+                String key = "tour:chat:" + tourId;
+                List<Object> rawList = redisTemplate.opsForList().range(key, 0, -1);
+                if (rawList != null && !rawList.isEmpty()) {
+                    List<ChatMessageDTO> msgs = new ArrayList<>();
+                    for (Object item : rawList) {
+                        if (item instanceof ChatMessageDTO) {
+                            msgs.add((ChatMessageDTO) item);
+                        }
                     }
+                    return msgs;
                 }
-                return msgs;
+            } catch (Exception ignored) {
+                // Redis unavailable, fallback to local memory
             }
-        } catch (Exception ignored) {
+        }
+
+        List<ChatMessageDTO> local = localChat.get(tourId);
+        if (local != null && !local.isEmpty()) {
+            return new ArrayList<>(local);
         }
 
         // Default initial simulated live chat messages

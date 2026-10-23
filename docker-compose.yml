@@ -55,6 +55,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/jharkhand_darshan
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgrespassword
+      SPRING_DATASOURCE_DRIVER: org.postgresql.Driver
+      SPRING_CACHE_TYPE: redis
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
     ports:

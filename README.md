@@ -197,22 +197,25 @@ docker compose down -v
 
 ---
 
-### Option 2: Run Locally (Manual Setup)
+### Option 2: Run Locally (Zero Setup / Standalone)
+
+The backend is pre-configured with a resilient dual-mode architecture:
+- **Standalone Mode (Zero Dependencies)**: Boots out of the box using an embedded, file-persisted database (`./data/jharkhand_darshan`) and in-memory caching. No Docker, PostgreSQL, or Redis installation required!
+- **Production Mode**: Set `SPRING_DATASOURCE_URL` and `SPRING_CACHE_TYPE=redis` to connect to PostgreSQL 16 and Redis 7.
 
 #### Prerequisites
 - **JDK 21 or higher**
 - **Maven 3.8+**
 - **Node.js 18+ and npm**
-- **PostgreSQL 16 & Redis 7** running locally (or via Docker: `docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres:16-alpine && docker run -d -p 6379:6379 redis:7-alpine`)
 
 #### 1. Backend Setup
 ```bash
 cd backend
 
 # Build and start Spring Boot
-mvn clean spring-boot:run
+mvn spring-boot:run
 ```
-*The backend automatically initializes tables and seeds authentic destinations, tours, hotels, and products on port `8080`.*
+*The backend automatically initializes tables, seeds authentic destinations, tours, hotels, and products on port `8080`, and enables the H2 Web Console at [http://localhost:8080/h2-console](http://localhost:8080/h2-console).*
 
 #### 2. Frontend Setup
 ```bash
